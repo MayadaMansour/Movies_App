@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       theme: MyThemeData.lightMode,
       routes: {
-        SplashScreen.routeName: (context) => SplashScreen(),
+        SplashScreen.routeName: (context) => const SplashScreen(),
       },
       home: const SplashScreen(),
     );

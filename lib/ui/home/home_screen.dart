@@ -28,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Theme(
-        data: Theme.of(context)
-            .copyWith(canvasColor: ColorResources.navBar),
+        data: Theme.of(context).copyWith(canvasColor: ColorResources.navBar),
         child: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: (index) {

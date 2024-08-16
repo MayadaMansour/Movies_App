@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     });
     super.initState();
   }
@@ -29,7 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
         width: double.infinity,
         height: double.infinity,
         child: Image(
-          image: AssetImage("assets/images/splash.png",),fit: BoxFit.fill,
+          image: AssetImage(
+            "assets/images/splash.png",
+          ),
+          fit: BoxFit.fill,
         ));
   }
 }

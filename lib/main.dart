@@ -4,7 +4,6 @@ import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 import 'package:moves_app_project/ui/utils/theme/theme.dart';
 
 
-
 void main() {
   runApp(
     const MyApp(),

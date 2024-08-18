@@ -38,114 +38,112 @@ class RecomendedScreenSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return SizedBox(
                     width: MediaQuery.of(context).size.width * 0.35,
-                    child: Expanded(
-                      child: Card(
-                        color: ColorResources.bgItem,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Stack(
-                              clipBehavior: Clip.none,
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.15,
-                                  decoration: const BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10))),
+                    child: Card(
+                      color: ColorResources.bgItem,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
+                                decoration: const BoxDecoration(
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10))),
+                              ),
+                              Positioned(
+                                top: -7,
+                                left: -12,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.bookmark,
+                                      color: ColorResources.grey
+                                          .withOpacity(0.6),
+                                      size: 55,
+                                    ),
+                                    Icon(
+                                      Icons.add,
+                                      color: ColorResources.white,
+                                      size: 20,
+                                    ),
+                                  ],
                                 ),
-                                Positioned(
-                                  top: -7,
-                                  left: -12,
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Icon(
-                                        Icons.bookmark,
-                                        color: ColorResources.grey
-                                            .withOpacity(0.6),
-                                        size: 55,
-                                      ),
-                                      Icon(
-                                        Icons.add,
-                                        color: ColorResources.white,
-                                        size: 20,
-                                      ),
-                                    ],
-                                  ),
+                              ),
+                            ],
+                          ),
+
+                          // Container(
+                          //   height: MediaQuery.of(context).size.height * 0.15,
+                          //   decoration: const BoxDecoration(
+                          //       color: Colors.red,
+                          //       borderRadius: BorderRadius.only(
+                          //           topLeft: Radius.circular(15),
+                          //           topRight: Radius.circular(15))),
+                          // ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.star,
+                                      color: ColorResources.yellow,
+                                    ),
+                                    Text(
+                                      rate,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall
+                                          ?.copyWith(
+                                              color: ColorResources.white,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  movieName,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: ColorResources.white,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+                                  time,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                          color: ColorResources.white,
+                                          fontSize: 15),
                                 ),
                               ],
                             ),
-
-                            // Container(
-                            //   height: MediaQuery.of(context).size.height * 0.15,
-                            //   decoration: const BoxDecoration(
-                            //       color: Colors.red,
-                            //       borderRadius: BorderRadius.only(
-                            //           topLeft: Radius.circular(15),
-                            //           topRight: Radius.circular(15))),
-                            // ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Icon(
-                                        Icons.star,
-                                        color: ColorResources.yellow,
-                                      ),
-                                      Text(
-                                        rate,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.copyWith(
-                                                color: ColorResources.white,
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w500),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    movieName,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            color: ColorResources.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    time,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            color: ColorResources.white,
-                                            fontSize: 15),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     ),
                   );

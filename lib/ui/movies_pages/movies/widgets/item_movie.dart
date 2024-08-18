@@ -4,17 +4,17 @@ import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 class MovieItem extends StatelessWidget {
   MovieItem({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
         Container(
-          width: MediaQuery.of(context).size.width * 0.3,
+          width: MediaQuery.of(context).size.width * 0.35,
+          height: MediaQuery.of(context).size.height * 0.25,
           decoration: BoxDecoration(
             color: ColorResources.bgItem,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(10),
           ),
         ),
         Positioned(

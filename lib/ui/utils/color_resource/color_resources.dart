@@ -10,4 +10,7 @@ class ColorResources {
   static Color get grey => const Color(0xFF514F4F);
 
   static Color get navBar => const Color(0xFF1A1A1A);
+  static Color get bgSections => const Color(0xFF282A28);
+  static Color get bgItem => const Color(0xFF343534);
 }
+

@@ -21,25 +21,26 @@ class MyThemeData {
         fontSize: 15,
       ),
       selectedIconTheme: const IconThemeData(size: 30),
-      unselectedIconTheme: const IconThemeData(size: 20), // Corrected size from 320 to 20
+      unselectedIconTheme:
+          const IconThemeData(size: 20), // Corrected size from 320 to 20
     ),
     textTheme: TextTheme(
       bodyLarge: TextStyle(
         color: ColorResources.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 30,
+        fontWeight: FontWeight.w700,
+        fontSize: 22,
         fontFamily: "ElMessiri",
       ),
       bodyMedium: TextStyle(
         color: ColorResources.white,
-        fontWeight: FontWeight.w700,
-        fontSize: 22,
+        fontWeight: FontWeight.w600,
+        fontSize: 20,
         fontFamily: "Flat",
       ),
       bodySmall: TextStyle(
         color: ColorResources.white,
-        fontWeight: FontWeight.w700,
-        fontSize: 20,
+        fontWeight: FontWeight.w400,
+        fontSize: 18,
         fontFamily: "Flat",
       ),
     ),

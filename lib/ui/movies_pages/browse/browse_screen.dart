@@ -1,103 +1,40 @@
 import 'package:flutter/material.dart';
 
+import '../../utils/color_resource/color_resources.dart';
+import 'browse_category_item.dart';
+
 class BrowseScreen extends StatelessWidget {
   const BrowseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: ColorResources.bgColor,
       appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text("Browse Category",style:Theme.of(context).textTheme.bodyLarge?.copyWith(
-              fontSize: 27
-            ),),
-          ],
+        title: Text(
+          "Browse Category",
+          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                fontSize: 27,
+              ),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor: ColorResources.bgColor,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: ListView.builder(
           itemCount: 100, // Number of rows
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.image,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Action',
-                                style:Theme.of(context).textTheme.bodyLarge
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: BrowseCategoryItem(title: 'Action'),
                   ),
-                  SizedBox(width: 10), // Spacing between the two images
+                  SizedBox(width: MediaQuery.of(context).size.width * .04),
                   Expanded(
-                    child: AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: Stack(
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.image,
-                                color: Colors.white,
-                                size: 50,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.5),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            alignment: Alignment.center,
-                            child: const Text(
-                              'Action',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    child: BrowseCategoryItem(title: 'Action'),
                   ),
                 ],
               ),
@@ -105,8 +42,6 @@ class BrowseScreen extends StatelessWidget {
           },
         ),
       ),
-
     );
-
   }
 }

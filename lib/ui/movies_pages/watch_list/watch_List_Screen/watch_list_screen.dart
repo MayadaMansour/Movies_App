@@ -18,7 +18,7 @@ class WatchlistScreen extends StatelessWidget {
     MovieModel(
         image:
             'https://m.media-amazon.com/images/M/MV5BZmFhMDgyZTUtNmZkNC00NjliLWI3NzQtMjVlZDlmMmEzMjI5XkEyXkFqcGdeQXVyNzI1NzMxNzM@._V1_.jpg',
-        movieTitle: 'movieTitle2',
+        movieTitle: 'Dora',
         releaseYear: 2019,
         movieSubtitle: 'movieSubtitle'),
     MovieModel(

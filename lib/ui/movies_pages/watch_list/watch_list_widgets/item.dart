@@ -15,18 +15,42 @@ class _Item extends StatelessWidget {
         children: [
           Expanded(
             flex: 2,
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(height * 0.02),
-                  color: Colors.transparent),
-              child: Image.network(
-                model.image,
-                height: height * 0.12,
-                width: width * 0.8,
-                fit: BoxFit.cover,
+            child: Stack(
+                clipBehavior: Clip.none,
+
+                children: [
+              Container(
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(height * 0.01),
+                    color: Colors.transparent),
+                child: Image.network(
+                  model.image,
+                  height: height * 0.12,
+                  width: width * 0.8,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+              Positioned(
+                top: -7,
+                left: -11,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Icon(
+                      Icons.bookmark,
+                      color: ColorResources.yellow.withOpacity(0.6),
+                      size: 55,
+                    ),
+                    Icon(
+                      Icons.check,
+                      color: ColorResources.white,
+                      size: 20,
+                    ),
+                  ],
+                ),
+              ),
+            ]),
           ),
           Expanded(
             flex: 3,
@@ -62,3 +86,23 @@ class _Item extends StatelessWidget {
     );
   }
 }
+
+//Positioned(
+//           top: -10,
+//           left: -12,
+//           child: Stack(
+//             alignment: Alignment.center,
+//             children: [
+//               Icon(
+//                 Icons.bookmark,
+//                 color: ColorResources.grey.withOpacity(0.6),
+//                 size: 55,
+//               ),
+//               Icon(
+//                 Icons.add,
+//                 color: ColorResources.white,
+//                 size: 20,
+//               ),
+//             ],
+//           ),
+//         ),

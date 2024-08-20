@@ -17,4 +17,3 @@ class ColorResources {
 }
 
 
-// Color(0xACFFFFFF)

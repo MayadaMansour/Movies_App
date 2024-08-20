@@ -39,7 +39,7 @@ class _Item extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.bookmark,
-                      color: ColorResources.yellow.withOpacity(0.6),
+                      color: ColorResources.yellow.withOpacity(0.9),
                       size: 55,
                     ),
                     Icon(

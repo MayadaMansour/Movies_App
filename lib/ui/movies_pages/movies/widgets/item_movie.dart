@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
 class MovieItem extends StatelessWidget {
-  MovieItem({super.key});
+  const MovieItem({super.key});
 
   @override
   Widget build(BuildContext context) {

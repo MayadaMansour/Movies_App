@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
 class RecomendedScreenSection extends StatelessWidget {
-  RecomendedScreenSection(
+  const RecomendedScreenSection(
       {super.key,
       required this.title,
       required this.time,

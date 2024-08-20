@@ -22,7 +22,7 @@ class MoviesScreen extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            RecomendedScreenSection(
+            const RecomendedScreenSection(
               title: 'Recomended',
               time: '2018  R  1h 59m',
               rate: '7.7',

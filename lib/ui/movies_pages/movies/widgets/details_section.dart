@@ -21,7 +21,7 @@ class DetailsSection extends StatelessWidget {
       children: [
         SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
-            child: MovieItem()),
+            child: const MovieItem()),
         const SizedBox(
           width: 8,
         ),

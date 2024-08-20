@@ -43,7 +43,7 @@ class MovieScreenSection extends StatelessWidget {
                               builder: (context) => const DetailsMovie()),
                         );
                       },
-                      child: MovieItem());
+                      child: const MovieItem());
                 },
                 itemCount: 10,
                 separatorBuilder: (BuildContext context, int index) {

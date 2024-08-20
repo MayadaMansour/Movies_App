@@ -60,7 +60,7 @@ class DetailsMovie extends StatelessWidget {
                     "Having spent most of her life exploring the jungle, nothing could prepare Dora for her most dangerous adventure yet — high school.",
                 rate: '7.7'),
             const SizedBox(height: 25),
-            RecomendedScreenSection(
+            const RecomendedScreenSection(
               title: 'More Like This',
               time: '2018  R  1h 59m',
               rate: '7.7',

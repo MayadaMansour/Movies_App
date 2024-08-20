@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../movies_pages/browse/browse_screen.dart';
 import '../movies_pages/movies/movies_home_screen/movies_screen.dart';
 import '../movies_pages/search/search_screen.dart';
-import '../movies_pages/watch_list/watch_list_screen.dart';
+import '../movies_pages/watch_list/watch_List_Screen/watch_list_screen.dart';
 import '../utils/color_resource/color_resources.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const MoviesScreen(),
     const SearchScreen(),
     const BrowseScreen(),
-    const WatchlistScreen(),
+     WatchlistScreen(),
   ];
 
   @override

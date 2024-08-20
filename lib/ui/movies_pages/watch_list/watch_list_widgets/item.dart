@@ -22,7 +22,7 @@ class _Item extends StatelessWidget {
               Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(height * 0.01),
+                    borderRadius: BorderRadius.circular(height * 0.009),
                     color: Colors.transparent),
                 child: Image.network(
                   model.image,

@@ -21,8 +21,7 @@ class MyThemeData {
         fontSize: 15,
       ),
       selectedIconTheme: const IconThemeData(size: 30),
-      unselectedIconTheme:
-          const IconThemeData(size: 20), // Corrected size from 320 to 20
+      unselectedIconTheme: const IconThemeData(size: 20),
     ),
     textTheme: TextTheme(
       bodyLarge: TextStyle(

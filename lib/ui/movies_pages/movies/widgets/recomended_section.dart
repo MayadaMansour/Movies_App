@@ -32,7 +32,7 @@ class RecomendedScreenSection extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.28,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
@@ -65,8 +65,8 @@ class RecomendedScreenSection extends StatelessWidget {
                                   children: [
                                     Icon(
                                       Icons.bookmark,
-                                      color: ColorResources.grey
-                                          .withOpacity(0.6),
+                                      color:
+                                          ColorResources.grey.withOpacity(0.6),
                                       size: 55,
                                     ),
                                     Icon(
@@ -79,24 +79,12 @@ class RecomendedScreenSection extends StatelessWidget {
                               ),
                             ],
                           ),
-
-                          // Container(
-                          //   height: MediaQuery.of(context).size.height * 0.15,
-                          //   decoration: const BoxDecoration(
-                          //       color: Colors.red,
-                          //       borderRadius: BorderRadius.only(
-                          //           topLeft: Radius.circular(15),
-                          //           topRight: Radius.circular(15))),
-                          // ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8),
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
+                                const SizedBox(height: 10),
                                 Row(
                                   children: [
                                     Icon(
@@ -115,9 +103,7 @@ class RecomendedScreenSection extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Text(
                                   movieName,
                                   style: Theme.of(context)
@@ -128,9 +114,7 @@ class RecomendedScreenSection extends StatelessWidget {
                                           fontSize: 16,
                                           fontWeight: FontWeight.w500),
                                 ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
+                                const SizedBox(height: 5),
                                 Text(
                                   time,
                                   style: Theme.of(context)
@@ -153,7 +137,7 @@ class RecomendedScreenSection extends StatelessWidget {
                   return const SizedBox(width: 15);
                 },
               ),
-            )
+            ),
           ],
         ),
       ),

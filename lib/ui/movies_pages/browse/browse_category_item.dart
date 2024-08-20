@@ -8,35 +8,38 @@ class BrowseCategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 10 / 7,
-      child: Stack(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: ColorResources.grey,
-              borderRadius: BorderRadius.circular(9.0),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.image,
-                color: ColorResources.white,
-                size: 50,
+    return Expanded(
+      child: SizedBox(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.width * 0.36,
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: ColorResources.grey,
+                borderRadius: BorderRadius.circular(19.0),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.image,
+                  color: ColorResources.white,
+                  size: 50,
+                ),
               ),
             ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: ColorResources.bgColor.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(9.0),
+            Container(
+              decoration: BoxDecoration(
+                color: ColorResources.bgColor.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(9.0),
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
             ),
-            alignment: Alignment.center,
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie_home_cubit.dart';
 import 'package:moves_app_project/ui/splash/board_screen.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 import 'package:moves_app_project/ui/utils/theme/theme.dart';
 
-
-void main() {
+Future<void> main() async {
   runApp(
-    const MyApp(),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => MovieHomeCubit()
+            ..getDetailsMovie()
+            ..getPopularMovies()
+            ..getSimilarMovies()
+            ..getTopRateMovies()
+            ..getUpComingMovies(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 

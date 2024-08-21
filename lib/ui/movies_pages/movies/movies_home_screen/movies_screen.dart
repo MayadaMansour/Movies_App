@@ -1,10 +1,15 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:moves_app_project/core/network/constants.dart';
 import 'package:moves_app_project/ui/movies_pages/movies/widgets/movie_section.dart';
 import 'package:moves_app_project/ui/movies_pages/movies/widgets/recomended_section.dart';
 
+import '../../../../core/model/movies_home_model/top_rated_movies_model.dart';
+
 class MoviesScreen extends StatelessWidget {
-  const MoviesScreen({super.key});
+  final List<ResultsTopRated> topRatedMovies;
+
+  const MoviesScreen({super.key, required this.topRatedMovies});
 
   @override
   Widget build(BuildContext context) {
@@ -12,12 +17,12 @@ class MoviesScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            addSliderMovies(context),
+            addSliderMovies(context, topRatedMovies),
             const SizedBox(
               height: 20,
             ),
             MovieScreenSection(
-              title: 'New Releases ',
+              title: 'New Releases',
             ),
             const SizedBox(
               height: 25,
@@ -27,14 +32,14 @@ class MoviesScreen extends StatelessWidget {
               time: '2018  R  1h 59m',
               rate: '7.7',
               movieName: 'Deadpool 2',
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget addSliderMovies(context) {
+  Widget addSliderMovies(BuildContext context, List<ResultsTopRated> movies) {
     return CarouselSlider(
       options: CarouselOptions(
         height: MediaQuery.of(context).size.height * 0.35,
@@ -51,20 +56,29 @@ class MoviesScreen extends StatelessWidget {
         enlargeCenterPage: true,
         enlargeFactor: 0.3,
       ),
-      items: [1, 2, 3, 4, 5].map((i) {
+      items: movies.map((movie) {
         return Builder(
           builder: (BuildContext context) {
+            String imageUrl = movie.backdropPath != null
+                ? ApiConstants.imageUrl(movie.backdropPath!)
+                : 'https://via.placeholder.com/500';
             return Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.all(15),
               margin: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                color: Colors.grey,
+                image: DecorationImage(
+                  image: NetworkImage(imageUrl),
+                  fit: BoxFit.cover,
+                ),
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Text(
-                'text $i',
-                style: const TextStyle(fontSize: 16.0),
+                movie.title ?? 'No Title',
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.white,
+                ),
               ),
             );
           },

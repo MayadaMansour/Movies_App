@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/model/movies_home_model/top_rated_movies_model.dart';
 import '../movies_pages/browse/browse_screen.dart';
 import '../movies_pages/movies/movies_home_screen/movies_screen.dart';
 import '../movies_pages/search/search_screen.dart';
@@ -17,12 +18,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> tabs = [
-    const MoviesScreen(),
-    const SearchScreen(),
-    const BrowseScreen(),
-    const WatchlistScreen(),
-  ];
+  List<ResultsTopRated> topRatedMovies = [];
+
+  List<Widget> getTabs() {
+    return [
+      MoviesScreen(topRatedMovies: topRatedMovies),
+      const SearchScreen(),
+      const BrowseScreen(),
+      const WatchlistScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: tabs[selectedIndex],
+      body: getTabs()[selectedIndex],
     );
   }
 }

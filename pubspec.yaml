@@ -44,6 +44,11 @@ dependencies:
   win32: ^5.3.0
 
 
+  cached_network_image: ^3.2.3
+
+  shimmer: ^2.0.0
+
+
 
 dev_dependencies:
   flutter_test:

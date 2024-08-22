@@ -1,38 +1,48 @@
-abstract class MovieHoneState {}
+import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 
-class MovieHomeInitial extends MovieHoneState {}
+abstract class MovieHomeState {}
+
+class MovieHomeInitial extends MovieHomeState {}
 
 //UpComingMovies
-class LoadingUpComingMovies extends MovieHoneState {}
+class LoadingUpComingMovies extends MovieHomeState {}
 
-class SuccessUpComingMovies extends MovieHoneState {}
+class SuccessUpComingMovies extends MovieHomeState {}
 
-class ErrorUpComingMovies extends MovieHoneState {}
+class ErrorUpComingMovies extends MovieHomeState {}
 
 //TopRateMovies
-class LoadingTopRateMovies extends MovieHoneState {}
+class LoadingTopRateMovies extends MovieHomeState {}
 
-class SuccessTopRateMovies extends MovieHoneState {}
+class SuccessTopRateMovies extends MovieHomeState {
+  List<ResultsTopRated> topRateMovies;
 
-class ErrorTopRateMovies extends MovieHoneState {}
+  SuccessTopRateMovies({required this.topRateMovies});
+}
+
+class ErrorTopRateMovies extends MovieHomeState {
+  String error;
+
+  ErrorTopRateMovies({required this.error});
+}
 
 //PopularMovies
-class LoadingPopularMovies extends MovieHoneState {}
+class LoadingPopularMovies extends MovieHomeState {}
 
-class SuccessPopularMovies extends MovieHoneState {}
+class SuccessPopularMovies extends MovieHomeState {}
 
-class ErrorPopularMovies extends MovieHoneState {}
+class ErrorPopularMovies extends MovieHomeState {}
 
 //DetailsMovie
-class LoadingDetailsMovie extends MovieHoneState {}
+class LoadingDetailsMovie extends MovieHomeState {}
 
-class SuccessDetailsMovie extends MovieHoneState {}
+class SuccessDetailsMovie extends MovieHomeState {}
 
-class ErrorDetailsMovie extends MovieHoneState {}
+class ErrorDetailsMovie extends MovieHomeState {}
 
 //SimilarMovie
-class LoadingSimilarMovies extends MovieHoneState {}
+class LoadingSimilarMovies extends MovieHomeState {}
 
-class SuccessSimilarMovies extends MovieHoneState {}
+class SuccessSimilarMovies extends MovieHomeState {}
 
-class ErrorSimilarMovies extends MovieHoneState {}
+class ErrorSimilarMovies extends MovieHomeState {}

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
+
+import '../../../../core/model/movies_home_model/top_rated_movies_model.dart';
 import '../widgets/details_section.dart';
 import '../widgets/recomended_section.dart';
 
 class DetailsMovie extends StatelessWidget {
-  const DetailsMovie({super.key});
+  final ResultsTopRated movie;
+
+  const DetailsMovie({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(movie.title ?? 'Movie Details'),
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);

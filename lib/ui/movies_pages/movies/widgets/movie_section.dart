@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
-import '../movies_home_screen/details_movie_screen.dart';
 import 'item_movie.dart';
 
 class MovieScreenSection extends StatelessWidget {
@@ -37,11 +36,11 @@ class MovieScreenSection extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const DetailsMovie()),
-                        );
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) => const DetailsMovie(movie: null,)),
+                        // );
                       },
                       child: MovieItem());
                 },

@@ -67,9 +67,6 @@ class DetailsMovie extends StatelessWidget {
             const SizedBox(height: 25),
             RecomendedScreenSection(
               title: 'More Like This',
-              time: '2018  R  1h 59m',
-              rate: '7.7',
-              movieName: 'Deadpool 2',
             )
           ],
         ),

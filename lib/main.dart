@@ -5,7 +5,18 @@ import 'package:moves_app_project/ui/utils/theme/theme.dart';
 
 Future<void> main() async {
   runApp(
+    // MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider<MovieHomeCubit>(
+    //       create: (context) => MovieHomeCubit()
+    //         ..getPopularMovies()
+    //         ..getUpComingMovies()
+    //         ..getTopRateMovies(),
+    //     ),
+    //   ],
+    //   child:
     const MyApp(),
+    // ),
   );
 }
 
@@ -22,7 +33,6 @@ class MyApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
       },
-      home: const SplashScreen(),
     );
   }
 }

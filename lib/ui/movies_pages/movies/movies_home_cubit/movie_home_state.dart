@@ -1,3 +1,4 @@
+import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 
@@ -33,4 +34,19 @@ class ErrorUpComingMovies extends MovieHomeState {
   String error;
 
   ErrorUpComingMovies({required this.error});
+}
+
+// UpComingMovies
+class LoadingPopularMovies extends MovieHomeState {}
+
+class SuccessPopularMovies extends MovieHomeState {
+  List<ResultsPopularMovies> popularMovies;
+
+  SuccessPopularMovies({required this.popularMovies});
+}
+
+class ErrorPopularMovies extends MovieHomeState {
+  String error;
+
+  ErrorPopularMovies({required this.error});
 }

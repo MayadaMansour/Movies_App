@@ -1,17 +1,18 @@
 class PopularMovieModel {
   int? page;
-  List<Results>? results;
+  List<ResultsPopularMovies>? results;
   int? totalPages;
   int? totalResults;
 
-  PopularMovieModel({this.page, this.results, this.totalPages, this.totalResults});
+  PopularMovieModel(
+      {this.page, this.results, this.totalPages, this.totalResults});
 
   PopularMovieModel.fromJson(Map<String, dynamic> json) {
     page = json['page'];
     if (json['results'] != null) {
-      results = <Results>[];
+      results = <ResultsPopularMovies>[];
       json['results'].forEach((v) {
-        results!.add(Results.fromJson(v));
+        results!.add(ResultsPopularMovies.fromJson(v));
       });
     }
     totalPages = json['total_pages'];
@@ -30,7 +31,7 @@ class PopularMovieModel {
   }
 }
 
-class Results {
+class ResultsPopularMovies {
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;
@@ -46,23 +47,23 @@ class Results {
   double? voteAverage;
   int? voteCount;
 
-  Results(
+  ResultsPopularMovies(
       {this.adult,
-        this.backdropPath,
-        this.genreIds,
-        this.id,
-        this.originalLanguage,
-        this.originalTitle,
-        this.overview,
-        this.popularity,
-        this.posterPath,
-        this.releaseDate,
-        this.title,
+      this.backdropPath,
+      this.genreIds,
+      this.id,
+      this.originalLanguage,
+      this.originalTitle,
+      this.overview,
+      this.popularity,
+      this.posterPath,
+      this.releaseDate,
+      this.title,
         this.video,
         this.voteAverage,
         this.voteCount});
 
-  Results.fromJson(Map<String, dynamic> json) {
+  ResultsPopularMovies.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
     genreIds = json['genre_ids'].cast<int>();

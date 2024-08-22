@@ -8,11 +8,21 @@ import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_m
 import 'constants.dart';
 
 class ApiManager {
-  static Future<PopularMovieModel> getPopularMovie() async {
-    var url = Uri.https(ApiConstants.baseUrl, ApiConstants.popularMovie,
-        {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
-    var response = await http.get(url);
-    return PopularMovieModel.fromJson(jsonDecode(response.body));
+  Future<PopularMovieModel> getPopularMovie() async {
+    try {
+      var url = Uri.https(ApiConstants.baseUrl, ApiConstants.popularMovie,
+          {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        return PopularMovieModel.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load popular movies');
+      }
+    } catch (error) {
+      print(error);
+      throw Exception('Error occurred: $error');
+    }
   }
 
   Future<UpComingMoviesModel> getUpComingMovie() async {
@@ -20,11 +30,11 @@ class ApiManager {
       var url = Uri.https(ApiConstants.baseUrl, ApiConstants.upComingMovie,
           {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
       var response = await http.get(url);
+
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
         return UpComingMoviesModel.fromJson(jsonDecode(response.body));
       } else {
-        throw Exception('Failed to load top-rated movies');
+        throw Exception('Failed to load upcoming movies');
       }
     } catch (error) {
       print(error);
@@ -37,8 +47,8 @@ class ApiManager {
       var url = Uri.https(ApiConstants.baseUrl, ApiConstants.topRated,
           {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
       var response = await http.get(url);
+
       if (response.statusCode == 200) {
-        print(jsonDecode(response.body));
         return TopRatedMoviesModel.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Failed to load top-rated movies');

@@ -46,6 +46,7 @@ dependencies:
 
   cached_network_image: ^3.2.3
   conditional_builder_null_safety:
+  video_player:
 
   shimmer: ^2.0.0
 

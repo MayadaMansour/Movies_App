@@ -1,26 +1,23 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 import 'package:moves_app_project/core/network/api_manage.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_data_source.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_remote_data_source_impl.dart';
-import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_upComing_data_source.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/repo/movies_home_repo_contract.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/repo/movies_home_repo_impl.dart';
-import 'package:moves_app_project/core/repositiry/movie_home/repo/movies_upComing_repo_contract.dart';
 
-import '../../../../core/repositiry/movie_home/data_source/movies_upComing_remote_data_source_impl.dart';
-import '../../../../core/repositiry/movie_home/repo/movies_upComing_repo_impl.dart';
 import 'movie_home_state.dart';
 
 class MovieHomeCubit extends Cubit<MovieHomeState> {
   late MoviesHomeRepositoryContract moviesHomeRepositoryContract;
   late MoviesHomeRemoteDataSource moviesHomeRemoteDataSource;
-  late MoviesUpcomingRepoContract moviesUpcomingRepoContract;
-  late MoviesUpcomingDataSource moviesUpcomingDataSource;
+
   late ApiManager apiManager;
   List<ResultsTopRated>? topRateMovies;
   List<ResultsUpComing>? upComingMovies;
+  List<ResultsPopularMovies>? popularMovies;
 
   MovieHomeCubit() : super(MovieHomeInitial()) {
     apiManager = ApiManager();
@@ -28,20 +25,28 @@ class MovieHomeCubit extends Cubit<MovieHomeState> {
         MoviesHomeRemoteDataSourceImpl(apiManager: apiManager);
     moviesHomeRepositoryContract = MoviesHomeRepositoryImpl(
         moviesHomeRemoteDataSource: moviesHomeRemoteDataSource);
-    moviesUpcomingDataSource =
-        MoviesUpComingRemoteDataSourceImpl(apiManager: apiManager);
-    moviesUpcomingRepoContract = MoviesUpComingRepositoryImpl(
-        moviesUpcomingDataSource: moviesUpcomingDataSource);
   }
 
   static MovieHomeCubit get(context) => BlocProvider.of(context);
 
-  void getPopularMovies() {}
+  void getPopularMovies() async {
+    emit(LoadingPopularMovies());
+    try {
+      final movies = await moviesHomeRepositoryContract.getPopularMovies();
+      if (movies == null || movies.results == null) {
+        emit(SuccessPopularMovies(popularMovies: []));
+      } else {
+        emit(SuccessPopularMovies(popularMovies: movies.results!));
+      }
+    } catch (error) {
+      emit(ErrorPopularMovies(error: error.toString()));
+    }
+  }
 
   void getUpComingMovies() async {
     emit(LoadingUpComingMovies());
     try {
-      final movies = await moviesUpcomingRepoContract.getUpComingMovies();
+      final movies = await moviesHomeRepositoryContract.getUpComingMovies();
       if (movies == null || movies.results == null) {
         emit(SuccessUpComingMovies(upComingMovies: []));
       } else {

@@ -1,17 +1,11 @@
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
+import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 
 abstract class MovieHomeState {}
 
 class MovieHomeInitial extends MovieHomeState {}
 
-//UpComingMovies
-class LoadingUpComingMovies extends MovieHomeState {}
-
-class SuccessUpComingMovies extends MovieHomeState {}
-
-class ErrorUpComingMovies extends MovieHomeState {}
-
-//TopRateMovies
+// TopRatedMovies
 class LoadingTopRateMovies extends MovieHomeState {}
 
 class SuccessTopRateMovies extends MovieHomeState {
@@ -26,23 +20,17 @@ class ErrorTopRateMovies extends MovieHomeState {
   ErrorTopRateMovies({required this.error});
 }
 
-//PopularMovies
-class LoadingPopularMovies extends MovieHomeState {}
+// UpComingMovies
+class LoadingUpComingMovies extends MovieHomeState {}
 
-class SuccessPopularMovies extends MovieHomeState {}
+class SuccessUpComingMovies extends MovieHomeState {
+  List<ResultsUpComing> upComingMovies;
 
-class ErrorPopularMovies extends MovieHomeState {}
+  SuccessUpComingMovies({required this.upComingMovies});
+}
 
-//DetailsMovie
-class LoadingDetailsMovie extends MovieHomeState {}
+class ErrorUpComingMovies extends MovieHomeState {
+  String error;
 
-class SuccessDetailsMovie extends MovieHomeState {}
-
-class ErrorDetailsMovie extends MovieHomeState {}
-
-//SimilarMovie
-class LoadingSimilarMovies extends MovieHomeState {}
-
-class SuccessSimilarMovies extends MovieHomeState {}
-
-class ErrorSimilarMovies extends MovieHomeState {}
+  ErrorUpComingMovies({required this.error});
+}

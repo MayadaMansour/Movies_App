@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:moves_app_project/ui/movies_pages/movies/widgets/item_movie.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
 class DetailsSection extends StatelessWidget {
@@ -19,9 +18,9 @@ class DetailsSection extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-            width: MediaQuery.of(context).size.width * 0.35,
-            child: MovieItem()),
+        // SizedBox(
+        //     width: MediaQuery.of(context).size.width * 0.35,
+        //     child: MovieItem(movie: null,)),
         const SizedBox(
           width: 8,
         ),

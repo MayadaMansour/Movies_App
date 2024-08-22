@@ -15,11 +15,21 @@ class ApiManager {
     return PopularMovieModel.fromJson(jsonDecode(response.body));
   }
 
-  static Future<UpComingMoviesModel> getUpComingMovie() async {
-    var url = Uri.https(ApiConstants.baseUrl, ApiConstants.upComingMovie,
-        {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
-    var response = await http.get(url);
-    return UpComingMoviesModel.fromJson(jsonDecode(response.body));
+  Future<UpComingMoviesModel> getUpComingMovie() async {
+    try {
+      var url = Uri.https(ApiConstants.baseUrl, ApiConstants.upComingMovie,
+          {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        print(jsonDecode(response.body));
+        return UpComingMoviesModel.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load top-rated movies');
+      }
+    } catch (error) {
+      print(error);
+      throw Exception('Error occurred: $error');
+    }
   }
 
   Future<TopRatedMoviesModel> getTopRateMovie() async {

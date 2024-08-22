@@ -4,6 +4,7 @@ import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie
 import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie_home_state.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
+import '../../../../core/network/constants.dart';
 import 'item_movie.dart';
 
 class MovieScreenSection extends StatefulWidget {
@@ -14,12 +15,12 @@ class MovieScreenSection extends StatefulWidget {
 }
 
 class _MovieScreenSectionState extends State<MovieScreenSection> {
-  MovieHomeCubit cubit = MovieHomeCubit();
+  late MovieHomeCubit cubit;
 
   @override
   void initState() {
-    cubit.getUpComingMovies();
     super.initState();
+    cubit = MovieHomeCubit()..getUpComingMovies();
   }
 
   @override
@@ -40,6 +41,7 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
             if (upcomingMovies.isEmpty) {
               return const Center(child: Text('No Upcoming Movies'));
             }
+
             return Container(
               height: MediaQuery.of(context).size.height * 0.25,
               width: MediaQuery.of(context).size.width,
@@ -47,7 +49,7 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "New Releases",
@@ -62,17 +64,9 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final movie = upcomingMovies[index];
-                          return InkWell(
-                            onTap: () {
-                              // Navigate to movie details
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => DetailsMovie(movie: movie),
-                              //   ),
-                              // );
-                            },
-                            child: MovieCard(movie: movie),
+                          return MovieCard(
+                            imageUrl:
+                                ApiConstants.imageUrl(movie.backdropPath!),
                           );
                         },
                         itemCount: upcomingMovies.length,
@@ -86,7 +80,6 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
               ),
             );
           }
-          // Default return value when no state matches
           return const SizedBox.shrink();
         },
       ),

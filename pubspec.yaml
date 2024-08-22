@@ -47,6 +47,10 @@ dependencies:
   cached_network_image: ^3.2.3
   conditional_builder_null_safety:
   video_player:
+  url_launcher: ^6.1.10
+  youtube_player_flutter: ^8.0.0
+
+
 
   shimmer: ^2.0.0
 

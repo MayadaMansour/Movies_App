@@ -14,8 +14,8 @@ class MoviesScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: SliderPannar(),
+            height: MediaQuery.of(context).size.height * 0.4,
+            child: const SliderPannar(),
           ),
           const SizedBox(height: 20),
           SizedBox(
@@ -23,8 +23,8 @@ class MoviesScreen extends StatelessWidget {
                 child: MovieScreenSection(),
               ),
               const SizedBox(height: 25),
-              RecomendedScreenSection(
-                title: 'Recomended',
+          const RecomendedScreenSection(
+            title: 'Recomended',
           ),
             ],
           ),

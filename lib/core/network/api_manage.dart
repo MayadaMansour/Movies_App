@@ -5,6 +5,7 @@ import 'package:moves_app_project/core/model/movies_home_model/popular_movie_mod
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 
+import '../model/movies_home_model/movie_vedio.dart';
 import 'constants.dart';
 
 class ApiManager {
@@ -21,6 +22,33 @@ class ApiManager {
       }
     } catch (error) {
       print(error);
+      throw Exception('Error occurred: $error');
+    }
+  }
+
+  Future<MovieTrailer> getMovieTrailer(int id) async {
+    try {
+      var url = Uri.https(ApiConstants.baseUrl, '/3/movie/$id/videos',
+          {'api_key': ApiConstants.apiKey, 'language': 'en-US'});
+
+      // Add Authorization header
+      var response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer ${ApiConstants.token}',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return MovieTrailer.fromJson(jsonDecode(response.body));
+      } else {
+        // Print response body for debugging
+        print('Error response: ${response.body}');
+        throw Exception('Failed to load movie trailer');
+      }
+    } catch (error) {
+      print('Error: $error');
       throw Exception('Error occurred: $error');
     }
   }

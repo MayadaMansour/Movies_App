@@ -1,32 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
-import '../../../../core/model/movies_home_model/up_coming_movie_model.dart';
-import '../../../../core/network/constants.dart';
-
 class MovieCard extends StatelessWidget {
-  final ResultsUpComing movie;
+  final String imageUrl;
 
-  const MovieCard({required this.movie, super.key});
+  const MovieCard({required this.imageUrl, super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Determine image URL
-    String imageUrl = movie.backdropPath != null
-        ? ApiConstants.imageUrl(movie.backdropPath!)
-        : 'https://via.placeholder.com/500';
-
     return Container(
       padding: const EdgeInsets.only(right: 8.0),
       child: InkWell(
         onTap: () {
-          // TODO: Navigate to movie details
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) => DetailsMovie(movie: movie),
-          //   ),
-          // );
+          // Handle onTap
         },
         child: Stack(
           clipBehavior: Clip.none,
@@ -36,16 +22,10 @@ class MovieCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(
-                    imageUrl,
-                    scale: 1.0,
-                  ),
+                  image: NetworkImage(imageUrl),
                   fit: BoxFit.cover,
                 ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
             Positioned(
@@ -73,3 +53,4 @@ class MovieCard extends StatelessWidget {
     );
   }
 }
+

@@ -10,9 +10,15 @@ class ApiConstants {
   static const String detailsMovie = "/3/movie/movie_id";
   static const String baseImageUrl = 'https://image.tmdb.org/t/p/w500';
 
-  static String imageUrl(String path) => '$baseImageUrl$path';
-
-  static String videoUrl(int movieId) {
-    return '$baseUrl/videos/$movieId.mp4';
+  static String imageUrl(String? path) {
+    if (path == null || path.isEmpty) {
+      return 'https://via.placeholder.com/500';
+    }
+    return 'https://image.tmdb.org/t/p/w500$path';
   }
+
+  static String videoUrl(String videoId) =>
+      'https://www.youtube.com/watch?v=$videoId';
+
+// }
 }

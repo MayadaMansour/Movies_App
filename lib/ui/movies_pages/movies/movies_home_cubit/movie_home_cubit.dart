@@ -1,13 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
-import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
-import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 import 'package:moves_app_project/core/network/api_manage.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_data_source.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_remote_data_source_impl.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/repo/movies_home_repo_contract.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/repo/movies_home_repo_impl.dart';
 
+import '../../../../core/model/movies_home_model/movie_vedio.dart';
 import 'movie_home_state.dart';
 
 class MovieHomeCubit extends Cubit<MovieHomeState> {
@@ -15,9 +13,6 @@ class MovieHomeCubit extends Cubit<MovieHomeState> {
   late MoviesHomeRemoteDataSource moviesHomeRemoteDataSource;
 
   late ApiManager apiManager;
-  List<ResultsTopRated>? topRateMovies;
-  List<ResultsUpComing>? upComingMovies;
-  List<ResultsPopularMovies>? popularMovies;
 
   MovieHomeCubit() : super(MovieHomeInitial()) {
     apiManager = ApiManager();
@@ -40,6 +35,28 @@ class MovieHomeCubit extends Cubit<MovieHomeState> {
       }
     } catch (error) {
       emit(ErrorPopularMovies(error: error.toString()));
+    }
+  }
+
+  void getMovieTrailer(int id) async {
+    emit(LoadingMovieTrailer());
+    try {
+      final trailerResponse =
+          await moviesHomeRepositoryContract.getVideoMovies(id);
+      if (trailerResponse == null ||
+          trailerResponse.trailers == null ||
+          trailerResponse.trailers!.isEmpty) {
+        emit(ErrorMovieTrailer(error: 'Trailer not found'));
+      } else {
+        final movieTrailer = MovieTrailer(
+          id: id,
+          trailers: trailerResponse.trailers,
+        );
+        emit(SuccessMovieTrailer(trailer: movieTrailer));
+      }
+    } catch (error) {
+      print(error);
+      emit(ErrorMovieTrailer(error: error.toString()));
     }
   }
 

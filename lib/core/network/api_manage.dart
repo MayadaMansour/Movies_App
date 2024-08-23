@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:moves_app_project/core/model/browse_categories_model/genres_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
@@ -127,5 +128,12 @@ class ApiManager {
       print(error);
       throw Exception('Error occurred: $error');
     }
+  }
+
+  static Future<GenresMoviesModel> getGenresMovies() async {
+    var url = Uri.https(ApiConstants.baseUrl, ApiConstants.genresMovie,
+        {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
+    var response = await http.get(url);
+    return GenresMoviesModel.fromJson(jsonDecode(response.body));
   }
 }

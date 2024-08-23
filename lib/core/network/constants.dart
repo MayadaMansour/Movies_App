@@ -22,4 +22,5 @@ class ApiConstants {
       'https://www.youtube.com/watch?v=$videoId';
 
 // }
+  static const String genresMovie = "/3/genre/movie/list";
 }

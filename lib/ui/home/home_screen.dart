@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return [
       MoviesScreen(),
       const SearchScreen(),
-      const BrowseScreen(),
+       BrowseScreen(),
       WatchlistScreen(),
     ];
   }

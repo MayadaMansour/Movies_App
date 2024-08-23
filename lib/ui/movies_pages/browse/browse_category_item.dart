@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
 class BrowseCategoryItem extends StatelessWidget {
   final String title;
+  final String imagePath;
 
-  BrowseCategoryItem({required this.title});
+  const BrowseCategoryItem({
+    Key? key,
+    required this.title,
+    required this.imagePath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +19,47 @@ class BrowseCategoryItem extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: ColorResources.grey,
-              borderRadius: BorderRadius.circular(19.0),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.image,
-                color: ColorResources.white,
-                size: 50,
+              borderRadius: BorderRadius.circular(19),
+              image: DecorationImage(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              color: ColorResources.bgColor.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(9.0),
-            ),
-            alignment: Alignment.center,
+          // Text overlay
+          Center(
             child: Text(
               title,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+              textAlign: TextAlign.center,
             ),
           ),
         ],
       ),
     );
+  }
+}
+
+String getImagePathForGenre(String genreName) {
+  switch (genreName.toLowerCase()) {
+    case 'action':
+      return 'assets/images/action.png';
+    case 'drama':
+      return 'assets/images/drama.jpg';
+    case 'comedy':
+      return 'assets/images/Comedy.jpg';
+    case 'romance':
+      return 'assets/images/romantic.jpg';
+    case 'horror':
+      return 'assets/images/Horror.jpg';
+    case 'crime':
+      return 'assets/images/Crime.jpg';
+    case 'thriller':
+      return 'assets/images/Thriller.jpg';
+    default:
+      return 'assets/images/cinema.jpg';
   }
 }

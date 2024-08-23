@@ -8,4 +8,5 @@ class ApiConstants {
   static const String topRated = "/3/movie/top_rated";
   static const String similarMovie = "/3/movie/movie_id/similar";
   static const String detailsMovie = "/3/movie/movie_id";
+  static const String genresMovie = "/3/genre/movie/list";
 }

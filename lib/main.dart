@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moves_app_project/ui/splash/board_screen.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 import 'package:moves_app_project/ui/utils/theme/theme.dart';
 
+import 'my_bloc_observer.dart';
 
 void main() {
+  Bloc.observer = MyBlocObserver();
   runApp(
     const MyApp(),
   );

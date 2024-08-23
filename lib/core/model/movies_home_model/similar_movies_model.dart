@@ -4,8 +4,12 @@ class SimilarMovieModel {
   int? totalPages;
   int? totalResults;
 
-  SimilarMovieModel(
-      {this.page, this.results, this.totalPages, this.totalResults});
+  SimilarMovieModel({
+    this.page,
+    this.results,
+    this.totalPages,
+    this.totalResults,
+  });
 
   SimilarMovieModel.fromJson(Map<String, dynamic> json) {
     page = json['page'];
@@ -47,26 +51,27 @@ class ResultsSimilarMovie {
   double? voteAverage;
   int? voteCount;
 
-  ResultsSimilarMovie(
-      {this.adult,
-      this.backdropPath,
-      this.genreIds,
-      this.id,
-      this.originalLanguage,
-      this.originalTitle,
-      this.overview,
-      this.popularity,
-      this.posterPath,
-      this.releaseDate,
-      this.title,
-      this.video,
-      this.voteAverage,
-      this.voteCount});
+  ResultsSimilarMovie({
+    this.adult,
+    this.backdropPath,
+    this.genreIds,
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+  });
 
   ResultsSimilarMovie.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    genreIds = json['genre_ids'].cast<int>();
+    genreIds = json['genre_ids']?.cast<int>(); // Handle nullable list
     id = json['id'];
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
@@ -76,7 +81,7 @@ class ResultsSimilarMovie {
     releaseDate = json['release_date'];
     title = json['title'];
     video = json['video'];
-    voteAverage = json['vote_average'];
+    voteAverage = json['vote_average']?.toDouble(); // Ensure double conversion
     voteCount = json['vote_count'];
   }
 

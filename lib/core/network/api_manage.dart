@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
+import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 
@@ -80,6 +81,23 @@ class ApiManager {
         return TopRatedMoviesModel.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Failed to load top-rated movies');
+      }
+    } catch (error) {
+      print(error);
+      throw Exception('Error occurred: $error');
+    }
+  }
+
+  Future<SimilarMovieModel> getSimilarMovies(int movieId) async {
+    try {
+      var url = Uri.https(ApiConstants.baseUrl, '/3/movie/$movieId/similar',
+          {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        return SimilarMovieModel.fromJson(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to load similar movies');
       }
     } catch (error) {
       print(error);

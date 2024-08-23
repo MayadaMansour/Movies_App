@@ -2,6 +2,7 @@ import 'package:moves_app_project/core/model/movies_home_model/popular_movie_mod
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 
 import '../../../model/movies_home_model/movie_vedio.dart';
+import '../../../model/movies_home_model/similar_movies_model.dart';
 import '../../../model/movies_home_model/up_coming_movie_model.dart';
 
 abstract class MoviesHomeRepositoryContract {
@@ -12,4 +13,6 @@ abstract class MoviesHomeRepositoryContract {
   Future<PopularMovieModel>? getPopularMovies();
 
   Future<MovieTrailer>? getVideoMovies(int id);
+
+  Future<SimilarMovieModel>? getSimilarMovies(int id);
 }

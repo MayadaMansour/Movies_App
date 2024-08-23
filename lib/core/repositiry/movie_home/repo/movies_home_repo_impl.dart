@@ -1,5 +1,6 @@
 import 'package:moves_app_project/core/model/movies_home_model/movie_vedio.dart';
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
+import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_data_source.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/repo/movies_home_repo_contract.dart';
@@ -29,5 +30,10 @@ class MoviesHomeRepositoryImpl implements MoviesHomeRepositoryContract {
   @override
   Future<MovieTrailer>? getVideoMovies(int id) {
     return moviesHomeRemoteDataSource.getVideoMovies(id);
+  }
+
+  @override
+  Future<SimilarMovieModel>? getSimilarMovies(int id) {
+    return moviesHomeRemoteDataSource.getSimilarMovies(id);
   }
 }

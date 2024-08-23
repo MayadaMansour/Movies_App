@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 import 'package:moves_app_project/core/network/api_manage.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_data_source.dart';
 import 'package:moves_app_project/core/repositiry/movie_home/data_source/movies_home_remote_data_source_impl.dart';
@@ -13,6 +14,7 @@ class MovieHomeCubit extends Cubit<MovieHomeState> {
   late MoviesHomeRemoteDataSource moviesHomeRemoteDataSource;
 
   late ApiManager apiManager;
+  List<ResultsUpComing> upComing = [];
 
   MovieHomeCubit() : super(MovieHomeInitial()) {
     apiManager = ApiManager();
@@ -89,7 +91,21 @@ class MovieHomeCubit extends Cubit<MovieHomeState> {
     }
   }
 
-  void getSimilarMovies() {}
+  void getSimilarMovies(int movieId) async {
+    emit(LoadingSimilarMovies());
+    try {
+      final movies =
+          await moviesHomeRepositoryContract.getSimilarMovies(movieId);
+      if (movies == null || movies.results == null) {
+        emit(SuccessSimilarMovies(similarMovies: []));
+      } else {
+        emit(SuccessSimilarMovies(similarMovies: movies.results!));
+      }
+    } catch (error) {
+      print("Error fetching movies: $error");
+      emit(ErrorSimilarMovies(error: error.toString()));
+    }
+  }
 
   void getDetailsMovie() {}
 }

@@ -20,6 +20,6 @@ class VideoPlayerWidget extends StatelessWidget {
             ),
             showVideoProgressIndicator: true,
           )
-        : const SizedBox.shrink(); // Handle the case where videoId is null
+        : const SizedBox.shrink();
   }
 }

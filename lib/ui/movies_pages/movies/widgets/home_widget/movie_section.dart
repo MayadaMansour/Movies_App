@@ -4,8 +4,8 @@ import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie
 import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie_home_state.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
-import '../../../../core/network/constants.dart';
-import 'item_movie.dart';
+import '../../../../../core/network/constants.dart';
+import '../item_movie.dart';
 
 class MovieScreenSection extends StatefulWidget {
   MovieScreenSection({super.key});
@@ -63,10 +63,12 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          final movie = upcomingMovies[index];
+                          final movie =
+                              upcomingMovies[index]; // ResultsUpComing
                           return MovieCard(
                             imageUrl:
                                 ApiConstants.imageUrl(movie.backdropPath!),
+                            movie: movie, // Pass the correct type here
                           );
                         },
                         itemCount: upcomingMovies.length,

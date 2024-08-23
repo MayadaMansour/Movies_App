@@ -1,46 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
-import '../../../../core/model/movies_home_model/top_rated_movies_model.dart';
-import '../widgets/details_section.dart';
-import '../widgets/recomended_section.dart';
+import '../../../../core/model/movies_home_model/up_coming_movie_model.dart';
+import '../widgets/details_widget/details_section.dart';
+import '../widgets/details_widget/similar_section.dart';
+import '../widgets/video_item.dart';
 
 class DetailsMovie extends StatelessWidget {
-  final ResultsTopRated movie;
+  final ResultsUpComing movie;
 
-  const DetailsMovie({Key? key, required this.movie}) : super(key: key);
+  DetailsMovie({Key? key, required this.movie}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorResources.bgColor,
       appBar: AppBar(
-        title: Text(movie.title ?? 'Movie Details'),
+        title: Text(
+          movie.title ?? 'Movie Details',
+          style: TextStyle(color: Colors.white),
+        ),
         leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_ios_sharp,
-              color: ColorResources.white,
-            )),
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Icon(
+            Icons.arrow_back_ios_sharp,
+            color: ColorResources.white,
+          ),
+        ),
         backgroundColor: ColorResources.navBar,
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
+            if (movie.id != null) VideoItem(movieId: movie.id!),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "Dora and the lost city of gold",
+                movie.title ?? 'Unknown Title',
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -49,9 +48,8 @@ class DetailsMovie extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              // Add padding for better layout
               child: Text(
-                "2019  PG-13  2h 7m",
+                movie.releaseDate ?? 'Unknown Date',
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall
@@ -60,14 +58,15 @@ class DetailsMovie extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             DetailsSection(
-                typeMovie: 'Action',
-                description:
-                    "Having spent most of her life exploring the jungle, nothing could prepare Dora for her most dangerous adventure yet — high school.",
-                rate: '7.7'),
+              typeMovie: "movie",
+              description: movie.overview ?? 'No Description Available',
+              rate: movie.voteAverage?.toString() ?? 'N/A',
+            ),
             const SizedBox(height: 25),
-            RecomendedScreenSection(
+            SimilarScreenSection(
               title: 'More Like This',
-            )
+              movieId: movie.id ?? 0,
+            ),
           ],
         ),
       ),

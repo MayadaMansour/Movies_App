@@ -1,13 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
 import 'package:moves_app_project/ui/movies_pages/movies/widgets/item_movie.dart';
 import 'package:moves_app_project/ui/movies_pages/movies/widgets/video_item.dart';
 
-import '../../../../core/model/movies_home_model/top_rated_movies_model.dart';
-import '../../../../core/network/constants.dart';
-import '../movies_home_cubit/movie_home_cubit.dart';
-import '../movies_home_cubit/movie_home_state.dart';
+import '../../../../../core/network/constants.dart';
+import '../../movies_home_cubit/movie_home_cubit.dart';
+import '../../movies_home_cubit/movie_home_state.dart';
 
 class SliderPannar extends StatefulWidget {
   const SliderPannar({super.key});
@@ -23,7 +23,7 @@ class _SliderPannarState extends State<SliderPannar> {
   void initState() {
     super.initState();
     cubit = MovieHomeCubit();
-    cubit.getTopRateMovies();
+    cubit.getPopularMovies();
   }
 
   @override
@@ -33,25 +33,24 @@ class _SliderPannarState extends State<SliderPannar> {
       child: BlocBuilder<MovieHomeCubit, MovieHomeState>(
         bloc: cubit,
         builder: (context, state) {
-          if (state is LoadingTopRateMovies) {
+          if (state is LoadingPopularMovies) {
             return const Center(
               child: CircularProgressIndicator(
                 color: Colors.black,
               ),
             );
           }
-          if (state is ErrorTopRateMovies) {
+          if (state is ErrorPopularMovies) {
             return Center(
               child: Text(state.error),
             );
           }
-          if (state is SuccessTopRateMovies) {
-            final movies = state.topRateMovies;
+          if (state is SuccessPopularMovies) {
+            final movies = state.popularMovies;
 
             return CarouselSlider.builder(
               itemBuilder:
                   (BuildContext context, int index, int pageViewIndex) {
-                // Pass the correct movieId to VideoItem
                 return addSliderMovie(movies[index], context);
               },
               itemCount: movies.length,
@@ -79,7 +78,7 @@ class _SliderPannarState extends State<SliderPannar> {
   }
 }
 
-Widget addSliderMovie(ResultsTopRated movie, BuildContext context) {
+Widget addSliderMovie(ResultsPopularMovies movie, BuildContext context) {
   final imageUrl = ApiConstants.imageUrl(movie.backdropPath);
 
   return Stack(

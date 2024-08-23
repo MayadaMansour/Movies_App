@@ -1,4 +1,5 @@
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
+import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 
@@ -51,6 +52,21 @@ class ErrorPopularMovies extends MovieHomeState {
   String error;
 
   ErrorPopularMovies({required this.error});
+}
+
+// SimilarMovies
+class LoadingSimilarMovies extends MovieHomeState {}
+
+class SuccessSimilarMovies extends MovieHomeState {
+  List<ResultsSimilarMovie> similarMovies;
+
+  SuccessSimilarMovies({required this.similarMovies});
+}
+
+class ErrorSimilarMovies extends MovieHomeState {
+  String error;
+
+  ErrorSimilarMovies({required this.error});
 }
 
 class LoadingMovieTrailer extends MovieHomeState {}

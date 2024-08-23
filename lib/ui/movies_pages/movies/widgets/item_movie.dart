@@ -1,56 +1,80 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
-class MovieCard extends StatelessWidget {
-  final String imageUrl;
+import '../../../../core/model/movies_home_model/up_coming_movie_model.dart';
+import '../movies_home_screen/details_movie_screen.dart';
 
-  const MovieCard({required this.imageUrl, super.key});
+class MovieCard extends StatefulWidget {
+  final String imageUrl;
+  final ResultsUpComing? movie;
+
+  MovieCard({required this.imageUrl, this.movie, super.key});
+
+  @override
+  State<MovieCard> createState() => _MovieCardState();
+}
+
+class _MovieCardState extends State<MovieCard> {
+  bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.only(right: 8.0),
-      child: InkWell(
-        onTap: () {
-          // Handle onTap
-        },
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Container(
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailsMovie(movie: widget.movie!),
+                ),
+              );
+            },
+            child: Container(
               height: MediaQuery.of(context).size.height * 0.2,
               width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(imageUrl),
+                  image: NetworkImage(widget.imageUrl),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            Positioned(
-              top: -7,
-              left: -12,
+          ),
+          Positioned(
+            top: -7,
+            left: -12,
+            child: InkWell(
+              onTap: () {
+                setState(() {
+                  isSelected = !isSelected;
+                });
+              },
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   Icon(
                     Icons.bookmark,
-                    color: ColorResources.grey.withOpacity(0.6),
+                    color: isSelected
+                        ? ColorResources.yellow.withOpacity(0.6)
+                        : ColorResources.grey.withOpacity(0.6),
                     size: 55,
                   ),
                   Icon(
-                    Icons.add,
+                    isSelected ? Icons.check : Icons.add,
                     color: ColorResources.white,
                     size: 20,
                   ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
-

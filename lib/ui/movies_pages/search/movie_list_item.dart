@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 import 'api/SearchResponse.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 
 class MovieListItem extends StatelessWidget {
   final SearchResults movie;
@@ -56,8 +57,10 @@ class MovieListItem extends StatelessWidget {
                         fontSize: 17,
                         color: Colors.white),
                     maxLines: 3),
-                    Text(movie.releaseDate!, style: const TextStyle(
-                        fontSize: 15,
+                    Text(
+                      getFormattedYear(movie.releaseDate),
+                      style: const TextStyle(
+                          fontSize: 15,
                         color: Color.fromARGB(255, 146, 145, 145)),),
                     Text(movie.originalLanguage!, style: const TextStyle(
                         fontSize: 15,
@@ -74,5 +77,15 @@ class MovieListItem extends StatelessWidget {
          ),
       ],
     );
+  }
+}
+
+String getFormattedYear(String? releaseDate) {
+  try {
+    final formatter = DateFormat('yyyy');
+    final dateTime = DateTime.parse(releaseDate!);
+    return formatter.format(dateTime);
+  } catch (e) {
+    return '';
   }
 }

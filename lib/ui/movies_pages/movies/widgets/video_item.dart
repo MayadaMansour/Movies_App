@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moves_app_project/ui/movies_pages/movies/widgets/vedio_player.dart';
@@ -49,26 +50,39 @@ class _VideoItemState extends State<VideoItem> {
 
             return Container(
               height: MediaQuery.of(context).size.height * 0.25,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: trailer != null && trailer.key != null
-                      ? NetworkImage(
-                          ApiConstants.imageUrl(trailer.key!),
-                          scale: 1.0,
-                        )
-                      : const AssetImage('assets/placeholder_image.png')
-                          as ImageProvider,
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
                 ),
               ),
-              child: trailer != null
-                  ? VideoPlayerWidget(
-                      videoUrl: ApiConstants.videoUrl(trailer.key!))
-                  : null,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  trailer != null && trailer.key != null
+                      ? CachedNetworkImage(
+                    imageUrl: ApiConstants.imageUrl(trailer.key!),
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) {
+                      print('Failed to load image: ${ApiConstants.imageUrl(trailer.key!)}');
+                      return const Icon(Icons.error);
+                    },
+                    fit: BoxFit.cover,
+                  )
+                      : const Image(
+                    image: AssetImage('assets/placeholder_image.png'),
+                    fit: BoxFit.cover,
+                  ),
+                  if (trailer != null)
+                    Positioned.fill(
+                      child: VideoPlayerWidget(
+                        videoUrl: ApiConstants.videoUrl(trailer.key!),
+                      ),
+                    ),
+                ],
+              ),
             );
           }
           return const SizedBox.shrink();
@@ -77,3 +91,4 @@ class _VideoItemState extends State<VideoItem> {
     );
   }
 }
+

@@ -17,6 +17,7 @@ class ApiConstants {
     return 'https://image.tmdb.org/t/p/w500$path';
   }
 
+
   static String videoUrl(String videoId) =>
       'https://www.youtube.com/watch?v=$videoId';
 

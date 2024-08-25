@@ -28,30 +28,37 @@ class ApiManager {
   }
 
   Future<MovieTrailer> getMovieTrailer(int id) async {
-    try {
-      var url = Uri.https(ApiConstants.baseUrl, '/3/movie/$id/videos',
-          {'api_key': ApiConstants.apiKey, 'language': 'en-US'});
+    final int retryCount = 3;
+    for (int attempt = 0; attempt < retryCount; attempt++) {
+      try {
+        var url = Uri.https(ApiConstants.baseUrl, '/3/movie/$id/videos',
+            {'api_key': ApiConstants.apiKey, 'language': 'en-US'});
 
-      // Add Authorization header
-      var response = await http.get(
-        url,
-        headers: {
-          'Authorization': 'Bearer ${ApiConstants.token}',
-          'Accept': 'application/json',
-        },
-      );
+        var response = await http.get(
+          url,
+          headers: {
+            'Authorization': 'Bearer ${ApiConstants.token}',
+            'Accept': 'application/json',
+          },
+        );
 
-      if (response.statusCode == 200) {
-        return MovieTrailer.fromJson(jsonDecode(response.body));
-      } else {
-        // Print response body for debugging
-        print('Error response: ${response.body}');
-        throw Exception('Failed to load movie trailer');
+        if (response.statusCode == 200) {
+          return MovieTrailer.fromJson(jsonDecode(response.body));
+        } else {
+          print('Error response: ${response.body}');
+          throw Exception('Failed to load movie trailer');
+        }
+      } catch (error) {
+        print('Error: $error');
+        if (attempt == retryCount - 1) {
+          throw Exception(
+              'Failed to load movie trailer after $retryCount attempts');
+        }
+        // Optionally, add a delay before retrying
+        await Future.delayed(Duration(seconds: 2));
       }
-    } catch (error) {
-      print('Error: $error');
-      throw Exception('Error occurred: $error');
     }
+    throw Exception('Failed to load movie trailer');
   }
 
   Future<UpComingMoviesModel> getUpComingMovie() async {

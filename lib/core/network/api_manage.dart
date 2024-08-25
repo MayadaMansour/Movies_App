@@ -6,6 +6,7 @@ import 'package:moves_app_project/core/model/movies_home_model/similar_movies_mo
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 
+import '../model/movies_home_model/details_move_model.dart';
 import '../model/movies_home_model/movie_vedio.dart';
 import 'constants.dart';
 
@@ -96,13 +97,29 @@ class ApiManager {
   }
 
   Future<SimilarMovieModel> getSimilarMovies(int movieId) async {
+    final url = Uri.https(ApiConstants.baseUrl, '/3/movie/$movieId/similar', {
+      'api_key': ApiConstants.apiKey,
+      'language': 'en-US',
+      'page': '1',
+    });
+
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      return SimilarMovieModel.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load similar movies');
+    }
+  }
+
+  Future<DetailsMovieModel> getDetailsMovies(int movieId) async {
     try {
-      var url = Uri.https(ApiConstants.baseUrl, '/3/movie/$movieId/similar',
-          {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
+      var url = Uri.https(ApiConstants.baseUrl, '/3/movie/$movieId',
+          {'api_key': ApiConstants.apiKey, 'language': 'en-US'});
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        return SimilarMovieModel.fromJson(jsonDecode(response.body));
+        return DetailsMovieModel.fromJson(jsonDecode(response.body));
       } else {
         throw Exception('Failed to load similar movies');
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
+import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
 import '../../../utils/color_resource/color_resources.dart';
+import '../movies_home_screen/details_movie_screen.dart';
 
 class RecommendedItem extends StatefulWidget {
   const RecommendedItem({
@@ -9,20 +10,22 @@ class RecommendedItem extends StatefulWidget {
     required this.titleMovie,
     required this.date,
     super.key,
+    this.movie,
   });
 
   final String img;
-  final double? rate; // Nullable double
+  final double? rate;
   final String titleMovie;
   final String date;
+  final ResultsTopRated? movie;
 
   @override
   State<RecommendedItem> createState() => _RecommendedItemState();
 }
 
-bool isSelected = false;
-
 class _RecommendedItemState extends State<RecommendedItem> {
+  bool isSelected = false;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -36,16 +39,28 @@ class _RecommendedItemState extends State<RecommendedItem> {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(widget.img),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+                InkWell(
+                  // onTap: () {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //       builder: (context) => DetailsMovie(
+                  //         movieId: widget.movie?.id ?? 0,
+                  //       ),
+                  //     ),
+                  //   );
+                  // },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.15,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(widget.img),
+                        fit: BoxFit.cover,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      ),
                     ),
                   ),
                 ),
@@ -92,7 +107,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                         color: ColorResources.yellow,
                       ),
                       Text(
-                        (widget.rate ?? 0.0).toString(), // Handle nullable rate
+                        (widget.rate ?? 0.0).toString(),
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: ColorResources.white,
                             fontSize: 16,
@@ -104,7 +119,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   Text(
                     widget.titleMovie.isNotEmpty
                         ? widget.titleMovie
-                        : "No Title", // Ensure non-empty title
+                        : "No Title",
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: ColorResources.white,
                         fontSize: 14,
@@ -113,7 +128,6 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   const SizedBox(height: 5),
                   Text(
                     widget.date.isNotEmpty ? widget.date : "No Release Date",
-                    // Ensure non-empty date
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall

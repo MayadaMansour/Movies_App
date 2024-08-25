@@ -7,6 +7,7 @@ import 'package:moves_app_project/ui/movies_pages/movies/widgets/recommended_ite
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
 import '../../../../../core/network/constants.dart';
+import '../../movies_home_screen/details_movie_screen.dart';
 
 class RecomendedScreenSection extends StatefulWidget {
   const RecomendedScreenSection({
@@ -22,10 +23,11 @@ class RecomendedScreenSection extends StatefulWidget {
 }
 
 class _RecomendedScreenSectionState extends State<RecomendedScreenSection> {
-  MovieHomeCubit cubit = MovieHomeCubit();
+  late MovieHomeCubit cubit;
 
   @override
   void initState() {
+    cubit = MovieHomeCubit();
     cubit.getTopRateMovies();
     super.initState();
   }
@@ -87,11 +89,23 @@ class _RecomendedScreenSectionState extends State<RecomendedScreenSection> {
                       ? ApiConstants.imageUrl(movie.backdropPath!)
                       : 'https://via.placeholder.com/500';
 
-                  return RecommendedItem(
-                    img: imageUrl,
-                    rate: movie.voteAverage,
-                    titleMovie: movie.title ?? "No Title",
-                    date: movie.releaseDate ?? "No Release Date",
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsMovie(
+                            movieId: movie.id ?? 0,
+                          ),
+                        ),
+                      );
+                    },
+                    child: RecommendedItem(
+                      img: imageUrl,
+                      rate: movie.voteAverage,
+                      titleMovie: movie.title ?? "No Title",
+                      date: movie.releaseDate ?? "No Release Date",
+                    ),
                   );
                 },
                 itemCount: movies.length,

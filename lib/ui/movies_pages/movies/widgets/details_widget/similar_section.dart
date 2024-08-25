@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../../core/model/movies_home_model/similar_movies_model.dart';
 import '../../../../../core/network/constants.dart';
 import '../../../../utils/color_resource/color_resources.dart';
@@ -12,29 +11,26 @@ class SimilarScreenSection extends StatefulWidget {
   const SimilarScreenSection({
     super.key,
     required this.title,
-    required this.movieId, // Add movieId parameter
+    required this.movieId,
   });
 
   final String title;
-  final int movieId; // Add movieId parameter
+  final int movieId;
 
   @override
   State<SimilarScreenSection> createState() => _SimilarScreenSectionState();
 }
 
 class _SimilarScreenSectionState extends State<SimilarScreenSection> {
-  late MovieHomeCubit cubit = MovieHomeCubit();
-
   @override
   void initState() {
     super.initState();
-    cubit.getSimilarMovies(widget.movieId);
+    context.read<MovieHomeCubit>().getSimilarMovies(widget.movieId);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MovieHomeCubit, MovieHomeState>(
-      bloc: cubit,
       builder: (context, state) {
         if (state is LoadingSimilarMovies) {
           return const Center(

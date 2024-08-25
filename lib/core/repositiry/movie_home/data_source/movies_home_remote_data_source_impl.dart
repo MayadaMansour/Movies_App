@@ -1,3 +1,4 @@
+import 'package:moves_app_project/core/model/movies_home_model/details_move_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/movie_vedio.dart';
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
@@ -38,6 +39,12 @@ class MoviesHomeRemoteDataSourceImpl implements MoviesHomeRemoteDataSource {
   @override
   Future<SimilarMovieModel>? getSimilarMovies(int id) async {
     final response = await apiManager.getSimilarMovies(id);
+    return response;
+  }
+
+  @override
+  Future<DetailsMovieModel>? getDetailsMovies(int id) async {
+    final response = await apiManager.getDetailsMovies(id);
     return response;
   }
 }

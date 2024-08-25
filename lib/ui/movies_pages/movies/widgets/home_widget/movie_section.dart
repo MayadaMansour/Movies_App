@@ -5,6 +5,7 @@ import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
 import '../../../../../core/network/constants.dart';
+import '../../movies_home_screen/details_movie_screen.dart';
 import '../item_movie.dart';
 
 class MovieScreenSection extends StatefulWidget {
@@ -20,7 +21,8 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
   @override
   void initState() {
     super.initState();
-    cubit = MovieHomeCubit()..getUpComingMovies();
+    cubit = MovieHomeCubit();
+    cubit.getUpComingMovies();
   }
 
   @override
@@ -34,7 +36,7 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is ErrorUpComingMovies) {
-            return Center(child: Text(state.error));
+            return Center(child: Text('Error: ${state.error}'));
           }
           if (state is SuccessUpComingMovies) {
             final upcomingMovies = state.upComingMovies;
@@ -63,12 +65,23 @@ class _MovieScreenSectionState extends State<MovieScreenSection> {
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          final movie =
-                              upcomingMovies[index]; // ResultsUpComing
-                          return MovieCard(
-                            imageUrl:
-                                ApiConstants.imageUrl(movie.backdropPath!),
-                            movie: movie, // Pass the correct type here
+                          final movie = upcomingMovies[index];
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetailsMovie(
+                                    movieId: movie.id ?? 0,
+                                  ),
+                                ),
+                              );
+                            },
+                            child: MovieCard(
+                              imageUrl:
+                                  ApiConstants.imageUrl(movie.backdropPath!),
+                              movie: movie,
+                            ),
                           );
                         },
                         itemCount: upcomingMovies.length,

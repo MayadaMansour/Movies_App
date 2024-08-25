@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
-
 import '../../../../core/model/movies_home_model/up_coming_movie_model.dart';
 import '../movies_home_screen/details_movie_screen.dart';
 
@@ -24,25 +23,15 @@ class _MovieCardState extends State<MovieCard> {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DetailsMovie(movie: widget.movie!),
-                ),
-              );
-            },
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.2,
-              width: MediaQuery.of(context).size.width * 0.3,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(widget.imageUrl),
-                  fit: BoxFit.cover,
-                ),
-                borderRadius: BorderRadius.circular(10),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.2,
+            width: MediaQuery.of(context).size.width * 0.3,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(widget.imageUrl),
+                fit: BoxFit.cover,
               ),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
           Positioned(

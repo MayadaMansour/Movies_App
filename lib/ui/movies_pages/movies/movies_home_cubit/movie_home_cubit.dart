@@ -94,18 +94,32 @@ class MovieHomeCubit extends Cubit<MovieHomeState> {
   void getSimilarMovies(int movieId) async {
     emit(LoadingSimilarMovies());
     try {
-      final movies =
-          await moviesHomeRepositoryContract.getSimilarMovies(movieId);
+      final movies = await moviesHomeRepositoryContract.getSimilarMovies(movieId);
+      print('Response: ${movies.toString()}');
       if (movies == null || movies.results == null) {
         emit(SuccessSimilarMovies(similarMovies: []));
       } else {
         emit(SuccessSimilarMovies(similarMovies: movies.results!));
       }
-    } catch (error) {
-      print("Error fetching movies: $error");
+    } catch (error, stackTrace) {
+      print("Error fetching similar movies: $error");
+      print("Stack trace: $stackTrace");
       emit(ErrorSimilarMovies(error: error.toString()));
     }
   }
 
-  void getDetailsMovie() {}
-}
+
+  void getDetailsMovies(int movieId) async {
+    emit(LoadingDetailsMovies());
+    try {
+      final movie =
+      await moviesHomeRepositoryContract.getDetailsMovies(movieId);
+      if (movie == null) {
+        emit(ErrorDetailsMovies(error: "Movie not found"));
+      } else {
+        emit(SuccessDetailsMovies(detailsMovieModel: movie));
+      }
+    } catch (error) {
+      emit(ErrorDetailsMovies(error: error.toString()));
+    }
+  }}

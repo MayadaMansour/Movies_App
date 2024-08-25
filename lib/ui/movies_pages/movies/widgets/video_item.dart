@@ -61,20 +61,21 @@ class _VideoItemState extends State<VideoItem> {
                 children: [
                   trailer != null && trailer.key != null
                       ? CachedNetworkImage(
-                    imageUrl: ApiConstants.imageUrl(trailer.key!),
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) {
-                      print('Failed to load image: ${ApiConstants.imageUrl(trailer.key!)}');
-                      return const Icon(Icons.error);
-                    },
-                    fit: BoxFit.cover,
-                  )
+                          imageUrl: ApiConstants.imageUrl(trailer.key!),
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) {
+                            print(
+                                'Failed to load image: ${ApiConstants.imageUrl(trailer.key!)}');
+                            return const Icon(Icons.error);
+                          },
+                          fit: BoxFit.cover,
+                        )
                       : const Image(
-                    image: AssetImage('assets/placeholder_image.png'),
-                    fit: BoxFit.cover,
-                  ),
+                          image: AssetImage('assets/placeholder_image.png'),
+                          fit: BoxFit.cover,
+                        ),
                   if (trailer != null)
                     Positioned.fill(
                       child: VideoPlayerWidget(
@@ -91,4 +92,3 @@ class _VideoItemState extends State<VideoItem> {
     );
   }
 }
-

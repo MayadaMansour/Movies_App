@@ -1,3 +1,4 @@
+import 'package:moves_app_project/core/model/movies_home_model/details_move_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
@@ -81,4 +82,17 @@ class ErrorMovieTrailer extends MovieHomeState {
   final String error;
 
   ErrorMovieTrailer({required this.error});
+}
+class LoadingDetailsMovies extends MovieHomeState {}
+
+class SuccessDetailsMovies extends MovieHomeState {
+  final DetailsMovieModel? detailsMovieModel;
+
+  SuccessDetailsMovies({required this.detailsMovieModel});
+}
+
+class ErrorDetailsMovies extends MovieHomeState {
+  final String error;
+
+  ErrorDetailsMovies({required this.error});
 }

@@ -8,6 +8,7 @@ import 'package:moves_app_project/ui/movies_pages/movies/widgets/video_item.dart
 import '../../../../../core/network/constants.dart';
 import '../../movies_home_cubit/movie_home_cubit.dart';
 import '../../movies_home_cubit/movie_home_state.dart';
+import '../../movies_home_screen/details_movie_screen.dart';
 
 class SliderPannar extends StatefulWidget {
   const SliderPannar({super.key});
@@ -90,7 +91,18 @@ Widget addSliderMovie(ResultsPopularMovies movie, BuildContext context) {
         bottom: -25,
         child: Row(
           children: [
-            MovieCard(imageUrl: imageUrl),
+            InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailsMovie(
+                        movieId: movie.id ?? 0,
+                      ),
+                    ),
+                  );
+                },
+                child: MovieCard(imageUrl: imageUrl)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

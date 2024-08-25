@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:moves_app_project/ui/movies_pages/browse/discover_movies/discover_movies_screen.dart';
 
 class BrowseCategoryItem extends StatelessWidget {
   final String title;
   final String imagePath;
+  final int genresId;
 
-  const BrowseCategoryItem({
+  BrowseCategoryItem({
     Key? key,
+    required this.genresId,
     required this.title,
     required this.imagePath,
   }) : super(key: key);
@@ -17,12 +20,25 @@ class BrowseCategoryItem extends StatelessWidget {
       height: MediaQuery.of(context).size.width * 0.36,
       child: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DiscoverMoviesScreen(
+                    genreId: genresId,
+                    title: title,
+                  ),
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(19),
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -43,7 +59,7 @@ class BrowseCategoryItem extends StatelessWidget {
   }
 }
 
-String getImagePathForGenre(String genreName) {
+/*String getImagePathForGenre(String genreName) {
   switch (genreName.toLowerCase()) {
     case 'action':
       return 'assets/images/action.png';
@@ -63,3 +79,4 @@ String getImagePathForGenre(String genreName) {
       return 'assets/images/cinema.jpg';
   }
 }
+*/

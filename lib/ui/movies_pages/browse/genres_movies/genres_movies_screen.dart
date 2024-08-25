@@ -58,17 +58,18 @@ class _GenresMoviesScreenState extends State<GenresMoviesScreen> {
                       Expanded(
                         child: BrowseCategoryItem(
                           title: state.listGenres[firstIndex].name ?? '',
-                          imagePath: getImagePathForGenre(
-                              state.listGenres[firstIndex].name ?? ''),
-                        ),
+                            imagePath: 'assets/images/movies0.png',
+                            genresId: state.listGenres[firstIndex].id!),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * .04),
                       if (secondIndex < state.listGenres.length)
                         Expanded(
                           child: BrowseCategoryItem(
                             title: state.listGenres[secondIndex].name ?? '',
-                            imagePath: getImagePathForGenre(
-                                state.listGenres[secondIndex].name ?? ''),
+                            imagePath: 'assets/images/movies0.png',
+                            //getImagePathForGenre(
+                            //state.listGenres[secondIndex].name ?? ''),
+                            genresId: state.listGenres[secondIndex].id!,
                           ),
                         ),
                       if (secondIndex >= state.listGenres.length)
@@ -85,71 +86,5 @@ class _GenresMoviesScreenState extends State<GenresMoviesScreen> {
       },
     );
 
-/*FutureBuilder<GenresMoviesModel?>(
-      future: ApiManager.getGenresMovies(),
-      builder:((context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator(
-            color: ColorResources.yellow,
-          ));
-        } else if(snapshot.hasError){
-          return Column(
-            children: [
-              Text('Something went wrong'),
-              ElevatedButton(onPressed: (){
-                ApiManager.getGenresMovies();
-                setState(() {
-
-                });
-              }, child: Text('Try Again')),
-            ],
-          );
-        } else if (snapshot.data!.statusCode != 'ok') {
-          var genres = snapshot.data?.genres ?? [];
-          if (genres.isEmpty) {
-            return Center(child: Text('No Data Available'));
-          }
-          return Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: ListView.builder(
-              itemCount: (genres.length / 2).ceil(),
-              itemBuilder: (context, index) {
-                int firstIndex = index * 2;
-                int secondIndex = firstIndex + 1;
-                return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 10.0),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: BrowseCategoryItem(
-                          title: genres[firstIndex].name ?? '',
-                          imagePath: getImagePathForGenre(genres[firstIndex].name ?? ''),
-                        ),
-                      ),
-                      SizedBox(width: MediaQuery.of(context).size.width * .04),
-                      if (secondIndex < genres.length)
-                        Expanded(
-                          child: BrowseCategoryItem(
-                            title: genres[secondIndex].name ?? '',
-                            imagePath: getImagePathForGenre(genres[secondIndex].name ?? ''),
-                          ),
-                        ),
-                      if (secondIndex >= genres.length)
-                        Expanded(
-                          child: SizedBox.shrink(),
-                        ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          );
-        } else {
-          return Center(child: Text('No Data Available'));
-        }
-      }
-      ),
-    );*/
   }
 }

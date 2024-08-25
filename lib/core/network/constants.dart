@@ -9,4 +9,5 @@ class ApiConstants {
   static const String similarMovie = "/3/movie/movie_id/similar";
   static const String detailsMovie = "/3/movie/movie_id";
   static const String genresMovie = "/3/genre/movie/list";
+  static const String movieDiscover = "/3/discover/movie";
 }

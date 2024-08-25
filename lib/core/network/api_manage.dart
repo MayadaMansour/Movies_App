@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:moves_app_project/core/model/browse_categories_model/genres_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
+import '../model/browse_categories_model/discover_movies_model.dart';
 import 'constants.dart';
 
 class ApiManager {
@@ -31,5 +32,16 @@ class ApiManager {
         {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
     var response = await http.get(url);
     return GenresMoviesModel.fromJson(jsonDecode(response.body));
+  }
+
+  static Future<DiscoverMoviesModel> getMovieDiscover(int genreId) async {
+    var url = Uri.https(ApiConstants.baseUrl, ApiConstants.movieDiscover, {
+      'api_key': ApiConstants.apiKey,
+      'language': 'en-US',
+      'page': "1",
+      'with_genres': genreId.toString()
+    });
+    var response = await http.get(url);
+    return DiscoverMoviesModel.fromJson(jsonDecode(response.body));
   }
 }

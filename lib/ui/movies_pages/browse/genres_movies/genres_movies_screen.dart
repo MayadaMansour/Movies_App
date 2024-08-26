@@ -58,7 +58,8 @@ class _GenresMoviesScreenState extends State<GenresMoviesScreen> {
                       Expanded(
                         child: BrowseCategoryItem(
                           title: state.listGenres[firstIndex].name ?? '',
-                            imagePath: 'assets/images/movies0.png',
+                            imagePath: getImagePathForGenre(
+                                state.listGenres[firstIndex].name ?? ''),
                             genresId: state.listGenres[firstIndex].id!),
                       ),
                       SizedBox(width: MediaQuery.of(context).size.width * .04),
@@ -66,9 +67,8 @@ class _GenresMoviesScreenState extends State<GenresMoviesScreen> {
                         Expanded(
                           child: BrowseCategoryItem(
                             title: state.listGenres[secondIndex].name ?? '',
-                            imagePath: 'assets/images/movies0.png',
-                            //getImagePathForGenre(
-                            //state.listGenres[secondIndex].name ?? ''),
+                            imagePath: getImagePathForGenre(
+                                state.listGenres[secondIndex].name ?? ''),
                             genresId: state.listGenres[secondIndex].id!,
                           ),
                         ),

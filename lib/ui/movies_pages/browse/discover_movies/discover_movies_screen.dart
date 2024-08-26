@@ -84,7 +84,7 @@ class _DiscoverMoviesScreenState extends State<DiscoverMoviesScreen> {
                     padding: const EdgeInsets.only(top: 10.0),
                     child: Text(
                       movie.overview ?? '',
-                      maxLines: 3,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),

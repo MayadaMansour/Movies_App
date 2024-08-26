@@ -59,7 +59,7 @@ class BrowseCategoryItem extends StatelessWidget {
   }
 }
 
-/*String getImagePathForGenre(String genreName) {
+String getImagePathForGenre(String genreName) {
   switch (genreName.toLowerCase()) {
     case 'action':
       return 'assets/images/action.png';
@@ -79,4 +79,3 @@ class BrowseCategoryItem extends StatelessWidget {
       return 'assets/images/cinema.jpg';
   }
 }
-*/

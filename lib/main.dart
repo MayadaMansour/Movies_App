@@ -22,14 +22,15 @@ Future<void> main() async {
   runApp(
     // MultiBlocProvider(
     //   providers: [
-    //     BlocProvider<MovieHomeCubit>(
-    //       create: (context) => MovieHomeCubit()
-    //         ..getPopularMovies()
-    //         ..getUpComingMovies()
-    //         ..getTopRateMovies(),
-    //     ),
+    //     // BlocProvider<MovieHomeCubit>(
+    //     //   create: (context) => MovieHomeCubit()
+    //     //     ..getPopularMovies()
+    //     //     ..getUpComingMovies()
+    //     //     ..getTopRateMovies(),
+    //     // ),
     //   ],
-    //   child: const MyApp(),
+    //   child:
+      const MyApp(),
     // ),
   );
 }

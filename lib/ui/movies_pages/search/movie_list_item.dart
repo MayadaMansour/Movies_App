@@ -18,57 +18,60 @@ class MovieListItem extends StatelessWidget {
       children: [
         Container(
           margin:  EdgeInsets.symmetric(horizontal: width*.01,vertical: height*.01),
-          child: Row(
-            children: [
-              //
-              if (movie.posterPath != null)
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: CachedNetworkImage(
-                    imageUrl:
-                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                    width: width * .46,
-                    height: height * .14,
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) => Center(
-                        child: CircularProgressIndicator(
-                          color: ColorResources.yellow,
-                        )
+          child: InkWell(
+
+            child: Row(
+              children: [
+                //
+                if (movie.posterPath != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                      'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                      width: width * .46,
+                      height: height * .14,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => Center(
+                          child: CircularProgressIndicator(
+                            color: ColorResources.yellow,
+                          )
+                      ),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                  )
+                else
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10.0),
+                    child: Image.asset(
+                      'assets/images/no_image.png',
+                      width: width * .46,
+                      height: height * .14,
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                )
-              else
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10.0),
-                  child: Image.asset(
-                    'assets/images/no_image.png',
-                    width: width * .46,
-                    height: height * .14,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              SizedBox(width: width*.04),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(movie.title!, style: const TextStyle(
-                        fontSize: 17,
-                        color: Colors.white),
-                    maxLines: 3),
-                    Text(
-                      getFormattedYear(movie.releaseDate),
-                      style: const TextStyle(
+                SizedBox(width: width*.04),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(movie.title!, style: const TextStyle(
+                          fontSize: 17,
+                          color: Colors.white),
+                      maxLines: 3),
+                      Text(
+                        getFormattedYear(movie.releaseDate),
+                        style: const TextStyle(
+                            fontSize: 15,
+                          color: Color.fromARGB(255, 146, 145, 145)),),
+                      Text(movie.originalLanguage!, style: const TextStyle(
                           fontSize: 15,
-                        color: Color.fromARGB(255, 146, 145, 145)),),
-                    Text(movie.originalLanguage!, style: const TextStyle(
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 146, 145, 145)),),
-                  ],
+                          color: Color.fromARGB(255, 146, 145, 145)),),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
          Divider(

@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> getTabs() {
     return [
       MoviesScreen(),
-      const SearchScreen(),
+       SearchScreen(),
        BrowseScreen(),
       WatchlistScreen(),
     ];

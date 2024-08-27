@@ -1,74 +1,99 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moves_app_project/core/model/movies_home_model/details_move_model.dart';
+import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie_home_cubit.dart';
+import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie_home_state.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
-import '../widgets/details_section.dart';
-import '../widgets/recomended_section.dart';
 
-class DetailsMovie extends StatelessWidget {
-  const DetailsMovie({super.key});
+import '../widgets/details_widget/details_section.dart';
+import '../widgets/details_widget/similar_section.dart';
+import '../widgets/video_item.dart';
+
+class DetailsMovie extends StatefulWidget {
+  final int movieId;
+
+  DetailsMovie({Key? key, required this.movieId}) : super(key: key);
+
+  @override
+  State<DetailsMovie> createState() => _DetailsMovieState();
+}
+
+class _DetailsMovieState extends State<DetailsMovie> {
+  late MovieHomeCubit cubit = MovieHomeCubit();
+
+  @override
+  void initState() {
+    super.initState();
+    cubit.getDetailsMovies(widget.movieId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Icon(
-              Icons.arrow_back_ios_sharp,
-              color: ColorResources.white,
-            )),
-        backgroundColor: ColorResources.navBar,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.35,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(8),
+    return BlocBuilder<MovieHomeCubit, MovieHomeState>(
+      bloc: cubit,
+      builder: (context, state) {
+        if (state is LoadingDetailsMovies) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (state is SuccessDetailsMovies) {
+          final movie = state.detailsMovieModel;
+          final genre = movie?.genres != null && movie!.genres!.isNotEmpty
+              ? movie.genres![0].name ?? 'Unknown Genre'
+              : 'Unknown Genre';
+          final description = movie?.overview ?? 'No Description Available';
+          final title = movie?.title ?? 'No Title Available';
+          final rating = movie?.voteAverage?.toString() ?? 'N/A';
+          final movieId = movie?.id ?? 0;
+
+          return Scaffold(
+            backgroundColor: ColorResources.bgColor,
+            appBar: AppBar(
+              title: Text(
+                title,
+                style: const TextStyle(color: Colors.white),
+              ),
+              leading: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Icon(
+                  Icons.arrow_back_ios_sharp,
+                  color: ColorResources.white,
+                ),
+              ),
+              backgroundColor: ColorResources.navBar,
+            ),
+            body: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  VideoItem(movieId: movieId),
+                  const SizedBox(height: 30),
+                  DetailsSection(
+                    typeMovie: genre,
+                    description: description,
+                    rate: rating,
+                    details: movie,
+                  ),
+                  const SizedBox(height: 25),
+                  SimilarScreenSection(
+                    title: 'More Like This',
+                    movieId: movieId,
+                  ),
+                ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Dora and the lost city of gold",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: ColorResources.white),
-              ),
+          );
+        } else if (state is ErrorDetailsMovies) {
+          return Center(
+            child: Text(
+              'Error: ${state.error}',
+              style: const TextStyle(color: Colors.red),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              // Add padding for better layout
-              child: Text(
-                "2019  PG-13  2h 7m",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(color: ColorResources.grey),
-              ),
-            ),
-            const SizedBox(height: 20),
-            DetailsSection(
-                typeMovie: 'Action',
-                description:
-                    "Having spent most of her life exploring the jungle, nothing could prepare Dora for her most dangerous adventure yet — high school.",
-                rate: '7.7'),
-            const SizedBox(height: 25),
-            RecomendedScreenSection(
-              title: 'More Like This',
-              time: '2018  R  1h 59m',
-              rate: '7.7',
-              movieName: 'Deadpool 2',
-            )
-          ],
-        ),
-      ),
+          );
+        }
+        return Container();
+      },
     );
   }
 }
+

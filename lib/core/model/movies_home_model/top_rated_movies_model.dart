@@ -3,11 +3,21 @@ class TopRatedMoviesModel {
   List<ResultsTopRated>? results;
   int? totalPages;
   int? totalResults;
+  String? status_message;
+  bool? success;
 
-  TopRatedMoviesModel({this.page, this.results, this.totalPages, this.totalResults});
+  TopRatedMoviesModel(
+      {this.page,
+      this.results,
+      this.totalPages,
+      this.totalResults,
+      this.status_message,
+      this.success});
 
   TopRatedMoviesModel.fromJson(Map<String, dynamic> json) {
     page = json['page'];
+    status_message = json['status_message'];
+    success = json['success'];
     if (json['results'] != null) {
       results = <ResultsTopRated>[];
       json['results'].forEach((v) {
@@ -26,6 +36,8 @@ class TopRatedMoviesModel {
     }
     data['total_pages'] = totalPages;
     data['total_results'] = totalResults;
+    data['status_message'] = status_message;
+    data['success'] = success;
     return data;
   }
 }
@@ -48,19 +60,19 @@ class ResultsTopRated {
 
   ResultsTopRated(
       {this.adult,
-        this.backdropPath,
-        this.genreIds,
-        this.id,
-        this.originalLanguage,
-        this.originalTitle,
-        this.overview,
-        this.popularity,
-        this.posterPath,
-        this.releaseDate,
-        this.title,
-        this.video,
-        this.voteAverage,
-        this.voteCount});
+      this.backdropPath,
+      this.genreIds,
+      this.id,
+      this.originalLanguage,
+      this.originalTitle,
+      this.overview,
+      this.popularity,
+      this.posterPath,
+      this.releaseDate,
+      this.title,
+      this.video,
+      this.voteAverage,
+      this.voteCount});
 
   ResultsTopRated.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];

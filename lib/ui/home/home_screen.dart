@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:moves_app_project/ui/movies_pages/watch_list/watch_list_screen/watch_list_screen.dart';
 
 import '../movies_pages/browse/browse_screen.dart';
 import '../movies_pages/movies/movies_home_screen/movies_screen.dart';
 import '../movies_pages/search/search_screen.dart';
-import '../movies_pages/watch_list/watch_list_screen.dart';
 import '../utils/color_resource/color_resources.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,12 +17,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int selectedIndex = 0;
-  List<Widget> tabs = [
-    const MoviesScreen(),
-    const SearchScreen(),
-    const BrowseScreen(),
-    const WatchlistScreen(),
-  ];
+
+  List<Widget> getTabs() {
+    return [
+      MoviesScreen(),
+      const SearchScreen(),
+      const BrowseScreen(),
+      WatchlistScreen(),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: tabs[selectedIndex],
+      body: getTabs()[selectedIndex],
     );
   }
 }

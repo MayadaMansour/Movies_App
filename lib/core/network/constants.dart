@@ -24,6 +24,5 @@ class ApiConstants {
 // }
   static const String genresMovie = "/3/genre/movie/list";
   static const String movieDiscover = "/3/discover/movie";
-  static const String genresMovie = "/3/genre/movie/list";
-  static const String movieDiscover = "/3/discover/movie";
+
 }

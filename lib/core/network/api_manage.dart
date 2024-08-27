@@ -8,6 +8,7 @@ import 'package:moves_app_project/core/model/movies_home_model/similar_movies_mo
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 import '../model/movies_home_model/details_move_model.dart';
 import '../model/movies_home_model/movie_vedio.dart';
+import '../model/movies_home_model/top_rated_movies_model.dart';
 import 'constants.dart';
 
 class ApiManager {
@@ -147,21 +148,5 @@ class ApiManager {
     return DiscoverMoviesModel.fromJson(jsonDecode(response.body));
   }
 
-  static Future<GenresMoviesModel> getGenresMovies() async {
-    var url = Uri.https(ApiConstants.baseUrl, ApiConstants.genresMovie,
-        {'api_key': ApiConstants.apiKey, 'language': 'en-US', 'page': "1"});
-    var response = await http.get(url);
-    return GenresMoviesModel.fromJson(jsonDecode(response.body));
-  }
 
-  static Future<DiscoverMoviesModel> getMovieDiscover(int genreId) async {
-    var url = Uri.https(ApiConstants.baseUrl, ApiConstants.movieDiscover, {
-      'api_key': ApiConstants.apiKey,
-      'language': 'en-US',
-      'page': "1",
-      'with_genres': genreId.toString()
-    });
-    var response = await http.get(url);
-    return DiscoverMoviesModel.fromJson(jsonDecode(response.body));
-  }
 }

@@ -4,14 +4,14 @@
 /// total_results : 1646
 
 class SearchResponse {
-  SearchResponse({
-      this.page,
+  SearchResponse(
+      {this.page,
       this.results,
       this.totalPages,
       this.totalResults,
-   this.statusCode,
-  this.statusMessage,
-  this.success});
+      this.statusCode,
+      this.statusMessage,
+      this.success});
 
   SearchResponse.fromJson(dynamic json) {
     page = json['page'];
@@ -62,20 +62,22 @@ class SearchResponse {
 
 class SearchResults {
   SearchResults({
-      this.adult,
-      this.backdropPath,
-      this.genreIds,
-      this.id,
-      this.originalLanguage,
-      this.originalTitle,
-      this.overview,
-      this.popularity,
-      this.posterPath,
-      this.releaseDate,
-      this.title,
-      this.video,
-      this.voteAverage,
-      this.voteCount,});
+    this.adult,
+    this.backdropPath,
+    this.genreIds,
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+    this.cast,
+  });
 
   SearchResults.fromJson(dynamic json) {
     adult = json['adult'];
@@ -107,6 +109,7 @@ class SearchResults {
   bool? video;
   double? voteAverage;
   int? voteCount;
+  List<String>? cast;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -124,6 +127,7 @@ class SearchResults {
     map['video'] = video;
     map['vote_average'] = voteAverage;
     map['vote_count'] = voteCount;
+    map['cast'] = cast;
     return map;
   }
 

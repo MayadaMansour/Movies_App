@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import '../../utils/color_resource/color_resources.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:moves_app_project/ui/movies_pages/search/widgets/movie_list_item.dart';
+import 'package:moves_app_project/ui/movies_pages/search/widgets/no_movies_found.dart';
+import 'package:moves_app_project/ui/movies_pages/search/widgets/textfield_search.dart';
+import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
+
 import 'api/SearchResponse.dart';
-import 'movie_list_item.dart';
-import 'api/search_api_constants.dart';
-import 'package:http/http.dart' as http;
+import 'api/search_api_manager.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -14,112 +16,114 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final searchTextController = TextEditingController();
-  List<SearchResults>? searchResults;
+  final TextEditingController searchController = TextEditingController();
+  final List<SearchResults> movies = [];
+  bool isLoading = false;
+  bool hasMore = true;
+  int page = 1;
+  String query = '';
 
   @override
   void initState() {
     super.initState();
-    searchTextController.addListener(onSearchTextChanged);
-  }
-
-  @override
-  void dispose() {
-    searchTextController.dispose();
-    super.dispose();
-  }
-
-  void onSearchTextChanged() async {
-    final query = searchTextController.text;
-    if (query.isEmpty) {
-      setState(() {
-        searchResults = null;
-      });
-      return;
-    }
-
-    final results = await searchMovies(query);
-    setState(() {
-      searchResults = results.results;
-    });
+    fetchMovies();
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
     return Column(
       children: [
-        TextField(
-          cursorColor: ColorResources.yellow,
-          controller: searchTextController,
-          decoration: InputDecoration(
-            hintText: 'Search',
-            hintStyle: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-                color: Color.fromARGB(255, 146, 145, 145)),
-            suffixIcon: IconButton(
-                onPressed: () {
-                  setState(() {
-                    searchTextController.clear();
-                  });
-                },
-                icon: Icon(Icons.clear)),
-            prefixIcon: Icon(
-              Icons.search_sharp,
-              color: Colors.white,
-              size: 25,
-            ),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50),
-                borderSide: BorderSide(
-                  color: ColorResources.yellow,
-                  width: 2,
-                )),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(50),
-                borderSide: BorderSide(width: 1, color: Colors.white)),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child:TextFieldSearch(
+            controller: searchController,
+            onSubmitted: onSearch,
+            onClear: onClear,
           ),
         ),
-        if (searchResults != null && searchResults!.isEmpty ||
-            searchResults == null)
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset('assets/images/no_movie.png'),
-                SizedBox(height: height*.015,),
-                Text('No movies found'),
-              ],
+        Expanded(
+          child: isLoading // Check if loading
+              ? Center(child: CircularProgressIndicator(color:ColorResources.yellow,)) // Show loading indicator
+              : query.isEmpty
+              ? Center(child: Icon(Icons.search,size: 70,color: ColorResources.white,)) // Message when no query is entered
+              : movies.isEmpty
+              ? NoMoviesFound()
+              : NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollInfo) {
+              if (!isLoading &&
+                  hasMore &&
+                  scrollInfo.metrics.pixels ==
+                      scrollInfo.metrics.maxScrollExtent) {
+                fetchMovies();
+              }
+              return false;
+            },
+            child: AnimationLimiter(
+              child: ListView.builder(
+                itemCount: movies.length + (hasMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == movies.length) {
+                    return Center(
+                        child: CircularProgressIndicator(
+                          color: ColorResources.yellow,
+                        ));
+                  }
+
+                  final movie = movies[index];
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    child: SlideAnimation(
+                      horizontalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: MovieListItem(movie: movie),
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        if (searchResults != null && searchResults!.isNotEmpty)
-          Expanded(
-            child: ListView.builder(
-              itemCount: searchResults!.length,
-              itemBuilder: (context, index) {
-                final movie = searchResults![index];
-                return MovieListItem(movie: movie);
-              },
-            ),
-          )
+        ),
       ],
     );
   }
-}
-Future<SearchResponse> searchMovies(String query) async {
-  final apiKey = SearchApiConstants.apiKey; // Replace with your actual API key
-  final url = Uri.parse(
-    'https://api.themoviedb.org/3/search/movie?api_key=$apiKey&query=$query',
-  );
-  final response = await http.get(url);
+  Future<void> fetchMovies({bool resetPage = false}) async {
+    if (resetPage) {
+      page = 1;
+      movies.clear();
+      hasMore = true;
+    }
 
-  if (response.statusCode == 200) {
-    final data = jsonDecode(response.body);
-    return SearchResponse.fromJson(data);
-  } else {
-    throw Exception('Failed to load movies');
+    if (isLoading || !hasMore) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final response = await SearchApiManager.searchMovies(query, page: page);
+
+    setState(() {
+      isLoading = false;
+      if (response != null) {
+        movies.addAll(response.results!);
+        page++;
+        hasMore = page <= (response.totalPages ?? 0);
+      } else {
+        hasMore = false;
+      }
+    });
+  }
+
+  void onSearch() {
+    query = searchController.text;
+    fetchMovies(resetPage: true);
+  }
+  void onClear() {
+    setState(() {
+      searchController.clear();
+      movies.clear();
+      query = '';
+      hasMore = false;
+    });
   }
 }
-

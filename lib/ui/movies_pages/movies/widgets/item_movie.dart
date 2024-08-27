@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
+import '../../../../core/firebase_utils/firebase_data.dart';
 import '../../../../core/model/movies_home_model/up_coming_movie_model.dart';
 import '../movies_home_screen/details_movie_screen.dart';
 
@@ -41,7 +42,13 @@ class _MovieCardState extends State<MovieCard> {
               onTap: () {
                 setState(() {
                   isSelected = !isSelected;
+
                 });
+                if (isSelected) {
+                   addUpComingMovieToWatchlist(widget.movie!);
+                } else {
+                  // Handle removal if necessary
+                }
               },
               child: Stack(
                 alignment: Alignment.center,

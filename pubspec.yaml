@@ -49,6 +49,9 @@ dependencies:
   video_player:
   url_launcher: ^6.1.10
   youtube_player_flutter: ^8.0.0
+  firebase_storage:
+  firebase_core: ^2.27.0
+  cloud_firestore: ^4.15.8
 
 
 

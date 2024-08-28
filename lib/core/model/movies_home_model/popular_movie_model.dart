@@ -35,7 +35,7 @@ class ResultsPopularMovies {
   bool? adult;
   String? backdropPath;
   List<int>? genreIds;
-  int? id;
+  int? id; // This should be int if JSON provides an int
   String? originalLanguage;
   String? originalTitle;
   String? overview;
@@ -47,27 +47,28 @@ class ResultsPopularMovies {
   double? voteAverage;
   int? voteCount;
 
-  ResultsPopularMovies(
-      {this.adult,
-      this.backdropPath,
-      this.genreIds,
-      this.id,
-      this.originalLanguage,
-      this.originalTitle,
-      this.overview,
-      this.popularity,
-      this.posterPath,
-      this.releaseDate,
-      this.title,
-        this.video,
-        this.voteAverage,
-        this.voteCount});
+  ResultsPopularMovies({
+    this.adult,
+    this.backdropPath,
+    this.genreIds,
+    this.id,
+    this.originalLanguage,
+    this.originalTitle,
+    this.overview,
+    this.popularity,
+    this.posterPath,
+    this.releaseDate,
+    this.title,
+    this.video,
+    this.voteAverage,
+    this.voteCount,
+  });
 
   ResultsPopularMovies.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    genreIds = json['genre_ids'].cast<int>();
-    id = json['id'];
+    genreIds = (json['genre_ids'] as List<dynamic>?)?.map((e) => e as int).toList();
+    id = json['id']; // Ensure JSON provides an int
     originalLanguage = json['original_language'];
     originalTitle = json['original_title'];
     overview = json['overview'];
@@ -77,7 +78,7 @@ class ResultsPopularMovies {
     title = json['title'];
     video = json['video'];
     voteAverage = json['vote_average'];
-    voteCount = json['vote_count'];
+    voteCount = json['vote_count']; // Ensure JSON provides an int
   }
 
   Map<String, dynamic> toJson() {

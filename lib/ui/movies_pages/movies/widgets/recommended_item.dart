@@ -9,15 +9,15 @@ class RecommendedItem extends StatefulWidget {
     required this.rate,
     required this.titleMovie,
     required this.date,
+    required this.movie,
     super.key,
-    this.movie,
   });
 
   final String img;
   final double? rate;
   final String titleMovie;
   final String date;
-  final ResultsPopularMovies? movie;
+  final ResultsPopularMovies movie;
 
   @override
   State<RecommendedItem> createState() => _RecommendedItemState();
@@ -25,21 +25,6 @@ class RecommendedItem extends StatefulWidget {
 
 class _RecommendedItemState extends State<RecommendedItem> {
   bool isSelected = false;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkIfMovieIsInWatchlist();
-  // }
-  //
-  // Future<void> checkIfMovieIsInWatchlist() async {
-  //   if (widget.movie != null) {
-  //     final movies = await getPopularMovieWatchlist().first;
-  //     setState(() {
-  //       isSelected = movies.any((m) => m.id == widget.movie!.id);  // Use unique identifier
-  //     });
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +44,7 @@ class _RecommendedItemState extends State<RecommendedItem> {
                     height: MediaQuery.of(context).size.height * 0.15,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.img),
+                        image: NetworkImage(widget.img.isNotEmpty ? widget.img : 'default_image_url'),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.only(
@@ -73,18 +58,20 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   top: -7,
                   left: -12,
                   child: InkWell(
-                    // onTap: () async {
-                    //   setState(() {
-                    //   //   isSelected = !isSelected;
-                    //   // });
-                    //   // if (widget.movie != null) {
-                    //   //   if (isSelected) {
-                    //   //     await addPopularMovieToWatchlist(widget.movie!);
-                    //   //   } else {
-                    //   //     await removePopularMovieFromWatchlist(widget.movie!);
-                    //   //   }
-                    //   // }
-                    // },
+                    onTap: () {
+                      if (widget.movie != null) {
+                        setState(() {
+                          isSelected = !isSelected;
+                        });
+                        if (isSelected) {
+                          addUPopularMovieToWatchlist(widget.movie); // No need for null check
+                        } else {
+                          removeMovieFromWatchlist(widget.movie.id.toString()); // No need for null check
+                        }
+                      } else {
+                        print('Movie is null');
+                      }
+                    },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [

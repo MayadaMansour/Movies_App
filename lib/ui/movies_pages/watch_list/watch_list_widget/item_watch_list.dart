@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
@@ -5,10 +7,22 @@ import '../../../../core/firebase_utils/firebase_data.dart';
 import '../../../utils/color_resource/color_resources.dart';
 
 class ItemWatchList extends StatefulWidget {
-  final ResultsUpComing model;
-  final VoidCallback onRemove; // Callback to notify removal
+  // final ResultsUpComing model;
+  final VoidCallback onRemove;
+  String tile;
+  String img;
+  String desc;
+  String date;
 
-  ItemWatchList({Key? key, required this.model, required this.onRemove}) : super(key: key);
+  ItemWatchList(
+      {Key? key,
+      // required this.model,
+      required this.onRemove,
+      required this.date,
+      required this.img,
+      required this.desc,
+      required this.tile})
+      : super(key: key);
 
   @override
   State<ItemWatchList> createState() => _ItemWatchListState();
@@ -17,38 +31,38 @@ class ItemWatchList extends StatefulWidget {
 class _ItemWatchListState extends State<ItemWatchList> {
   bool isSelected = true;
 
-  @override
-  void initState() {
-    super.initState();
-    checkIfMovieInWatchlist();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   checkIfMovieInWatchlist();
+  // }
 
-  Future<void> checkIfMovieInWatchlist() async {
-    var doc = await FirebaseFirestore.instance
-        .collection('watchlist')
-        .doc(widget.model.id.toString())
-        .get();
+  // Future<void> checkIfMovieInWatchlist() async {
+  //   var doc = await FirebaseFirestore.instance
+  //       .collection('watchlist')
+  //       .doc(widget.model.id.toString())
+  //       .get();
+  //
+  //   setState(() {
+  //     isSelected = doc.exists;
+  //   });
+  // }
 
-    setState(() {
-      isSelected = doc.exists;
-    });
-  }
-
-  Future<void> handleRemove() async {
-    await removeMovieFromWatchlist(widget.model.id.toString());
-    widget.onRemove();
-    setState(() {
-      isSelected = !isSelected;
-    });
-  }
+  // Future<void> handleRemove() async {
+  //   await removeMovieFromWatchlist(widget.model.id.toString());
+  //   widget.onRemove();
+  //   setState(() {
+  //     isSelected = !isSelected;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    final String fullImageUrl =
-        'https://image.tmdb.org/t/p/original/${widget.model.backdropPath}';
+    // final String fullImageUrl =
+    //     'https://image.tmdb.org/t/p/original/${widget.model.backdropPath}';
 
     return Padding(
       padding: EdgeInsets.all(height * 0.01),
@@ -63,7 +77,7 @@ class _ItemWatchListState extends State<ItemWatchList> {
                 width: MediaQuery.of(context).size.width * 0.25,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(fullImageUrl),
+                    image: NetworkImage(widget.img),
                     fit: BoxFit.cover,
                   ),
                   borderRadius: BorderRadius.circular(10),
@@ -73,9 +87,7 @@ class _ItemWatchListState extends State<ItemWatchList> {
                 top: -7,
                 left: -12,
                 child: InkWell(
-                  onTap: () async {
-                    await handleRemove(); // Handle the removal
-                  },
+                  onTap:widget.onRemove,
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -106,7 +118,7 @@ class _ItemWatchListState extends State<ItemWatchList> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    widget.model.title!,
+                    widget.tile,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -115,14 +127,14 @@ class _ItemWatchListState extends State<ItemWatchList> {
                         fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    widget.model.releaseDate.toString(),
+                    widget.date.toString(),
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall
                         ?.copyWith(color: ColorResources.white),
                   ),
                   Text(
-                    widget.model.voteCount!.toString(),
+                    widget.desc,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context)

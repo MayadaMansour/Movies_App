@@ -6,6 +6,7 @@ import 'package:moves_app_project/ui/movies_pages/movies/movies_home_cubit/movie
 import 'package:moves_app_project/ui/movies_pages/movies/widgets/recommended_item.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
 
+import '../../../../../core/model/movies_home_model/popular_movie_model.dart';
 import '../../../../../core/network/constants.dart';
 import '../../movies_home_screen/details_movie_screen.dart';
 
@@ -105,6 +106,7 @@ class _RecomendedScreenSectionState extends State<RecomendedScreenSection> {
                       rate: movie.voteAverage,
                       titleMovie: movie.title ?? "No Title",
                       date: movie.releaseDate ?? "No Release Date",
+                      movie: convertToPopularMovies(movie), // Convert here
                     ),
                   );
                 },
@@ -117,6 +119,16 @@ class _RecomendedScreenSectionState extends State<RecomendedScreenSection> {
           ],
         ),
       ),
+    );
+  }
+
+  ResultsPopularMovies convertToPopularMovies(ResultsTopRated topRated) {
+    return ResultsPopularMovies(
+      id: topRated.id,
+      title: topRated.title,
+      backdropPath: topRated.backdropPath,
+      voteAverage: topRated.voteAverage,
+      releaseDate: topRated.releaseDate,
     );
   }
 }

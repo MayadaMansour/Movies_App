@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../../core/model/movies_home_model/popular_movie_model.dart';
 import '../../../../../core/model/movies_home_model/similar_movies_model.dart';
+import '../../../../../core/model/movies_home_model/top_rated_movies_model.dart';
 import '../../../../../core/network/constants.dart';
 import '../../../../utils/color_resource/color_resources.dart';
 import '../../movies_home_cubit/movie_home_cubit.dart';
@@ -88,6 +90,7 @@ class _SimilarScreenSectionState extends State<SimilarScreenSection> {
                     rate: movie.voteAverage ?? 0.0,
                     titleMovie: movie.title ?? "No Title",
                     date: movie.releaseDate ?? "No Release Date",
+                    movie: convertToPopularMovies(movie), // Convert here
                   );
                 },
                 itemCount: movies.length,
@@ -99,6 +102,15 @@ class _SimilarScreenSectionState extends State<SimilarScreenSection> {
           ],
         ),
       ),
+    );
+  }
+  ResultsPopularMovies convertToPopularMovies(ResultsSimilarMovie topRated) {
+    return ResultsPopularMovies(
+      id: topRated.id,
+      title: topRated.title,
+      backdropPath: topRated.backdropPath,
+      voteAverage: topRated.voteAverage,
+      releaseDate: topRated.releaseDate,
     );
   }
 }

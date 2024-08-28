@@ -1,6 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
+import 'package:moves_app_project/core/model/movies_home_model/similar_movies_model.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
 import 'package:moves_app_project/ui/movies_pages/watch_list/watch_list_widget/item_watch_list.dart';
 import 'package:moves_app_project/ui/utils/color_resource/color_resources.dart';
@@ -15,6 +16,46 @@ class WatchlistScreen extends StatelessWidget {
     for (var doc in querySnapshot.docs) {
       await doc.reference.delete();
     }
+  }
+
+  Stream<List<dynamic>> getAllWatchlistMovies() {
+    CollectionReference watchlistRef =
+        FirebaseFirestore.instance.collection('watchlist');
+
+    return watchlistRef.snapshots().map((snapshot) {
+      if (snapshot.docs.isEmpty) {
+        return [];
+      }
+
+      return snapshot.docs
+          .map((doc) {
+            final data = doc.data() as Map<String, dynamic>?;
+            if (data != null) {
+              final type = data['type'] as String?;
+              print('Document type: $type');
+
+              try {
+                if (type == 'upcoming') {
+                  return ResultsUpComing.fromJson(data);
+                } else if (type == 'popular') {
+                  return ResultsPopularMovies.fromJson(data);
+                } else if (type == 'similar') {
+                  return ResultsSimilarMovie.fromJson(data);
+                } else {
+                  print('Unknown type: $type');
+                }
+              } catch (e) {
+                print('Error parsing document data: $e');
+              }
+            } else {
+              print('Document data is null');
+            }
+
+            return null;
+          })
+          .whereType<dynamic>()
+          .toList();
+    });
   }
 
   @override
@@ -65,8 +106,8 @@ class WatchlistScreen extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          StreamBuilder<List<ResultsUpComing>>(
-            stream: getUpComingWatchlist(),
+          StreamBuilder<List<dynamic>>(
+            stream: getAllWatchlistMovies(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SliverToBoxAdapter(
@@ -84,90 +125,71 @@ class WatchlistScreen extends StatelessWidget {
                   snapshot.data == null ||
                   snapshot.data!.isEmpty) {
                 return const SliverToBoxAdapter(
-                  child: Center(child: Text('')),
+                  child: Center(child: Text('No movies in watchlist')),
                 );
               }
 
-              List<ResultsUpComing> upComingMovies = snapshot.data!;
+              final allMovies = snapshot.data!;
+              final upComingMovies =
+                  allMovies.whereType<ResultsUpComing>().toList();
+              final popularMovies =
+                  allMovies.whereType<ResultsPopularMovies>().toList();
+              final similarMovies =
+                  allMovies.whereType<ResultsSimilarMovie>().toList();
 
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
+                    dynamic movie;
+                    String date;
+                    String img;
+                    String desc;
+                    String title;
+
+                    if (index < upComingMovies.length) {
+                      movie = upComingMovies[index];
+                      date = movie.releaseDate ?? "";
+                      img =
+                          'https://image.tmdb.org/t/p/original/${movie.backdropPath}';
+                      desc = movie.overview ?? "";
+                      title = movie.title ?? "";
+                    } else if (index <
+                        upComingMovies.length + popularMovies.length) {
+                      movie = popularMovies[index - upComingMovies.length];
+                      date = movie.releaseDate ?? "";
+                      img =
+                          'https://image.tmdb.org/t/p/original/${movie.backdropPath}';
+                      desc = movie.overview ?? "";
+                      title = movie.title ?? "";
+                    } else {
+                      movie = similarMovies[
+                          index - upComingMovies.length - popularMovies.length];
+                      date = movie.releaseDate ?? "";
+                      img =
+                          'https://image.tmdb.org/t/p/original/${movie.backdropPath}';
+                      desc = movie.overview ?? "";
+                      title = movie.title ?? "";
+                    }
+
                     return ItemWatchList(
-                      // model: upComingMovies[index],
                       onRemove: () {
-                        removeMovieFromWatchlist(
-                                upComingMovies[index].id.toString())
-                            .then((_) {
+                        removeMovieFromWatchlist(movie.id.toString()).then((_) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                                 content: Text(
-                                    '${upComingMovies[index].title} removed from watchlist')),
+                                    '${movie.title} removed from watchlist')),
                           );
                         });
                       },
-                      date: upComingMovies[index].releaseDate ?? "",
-                      img:
-                          'https://image.tmdb.org/t/p/original/${upComingMovies[index].backdropPath}',
-                      desc: upComingMovies[index].overview ?? "",
-                      tile: upComingMovies[index].title ?? "",
+                      date: date,
+                      img: img,
+                      desc: desc,
+                      tile: title,
                     );
                   },
-                  childCount: upComingMovies.length,
-                ),
-              );
-            },
-          ),
-          // Popular Movies Section
-          StreamBuilder<List<ResultsPopularMovies>>(
-            stream: getPopularWatchlist(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const SliverToBoxAdapter(
-                  child: Center(child: CircularProgressIndicator()),
-                );
-              }
-
-              if (snapshot.hasError) {
-                return SliverToBoxAdapter(
-                  child: Center(child: Text('Error: ${snapshot.error}')),
-                );
-              }
-
-              if (!snapshot.hasData ||
-                  snapshot.data == null ||
-                  snapshot.data!.isEmpty) {
-                return const SliverToBoxAdapter(
-                  child: Center(child: Text('')),
-                );
-              }
-
-              List<ResultsPopularMovies> popularMovies = snapshot.data!;
-
-              return SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return ItemWatchList(
-                      // model: popularMovies[index],
-                      onRemove: () {
-                        removeMovieFromWatchlist(
-                                popularMovies[index].id.toString())
-                            .then((_) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    '${popularMovies[index].title} removed from watchlist')),
-                          );
-                        });
-                      },
-                      date: popularMovies[index].releaseDate ?? "",
-                      img:
-                          'https://image.tmdb.org/t/p/original/${popularMovies[index].backdropPath}',
-                      desc: popularMovies[index].overview ?? "",
-                      tile: popularMovies[index].title ?? "",
-                    );
-                  },
-                  childCount: popularMovies.length,
+                  childCount: upComingMovies.length +
+                      popularMovies.length +
+                      similarMovies.length,
                 ),
               );
             },

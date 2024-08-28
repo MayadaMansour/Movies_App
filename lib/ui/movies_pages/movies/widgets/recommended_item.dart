@@ -44,7 +44,9 @@ class _RecommendedItemState extends State<RecommendedItem> {
                     height: MediaQuery.of(context).size.height * 0.15,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: NetworkImage(widget.img.isNotEmpty ? widget.img : 'default_image_url'),
+                        image: NetworkImage(widget.img.isNotEmpty
+                            ? widget.img
+                            : 'default_image_url'),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: const BorderRadius.only(
@@ -64,9 +66,9 @@ class _RecommendedItemState extends State<RecommendedItem> {
                           isSelected = !isSelected;
                         });
                         if (isSelected) {
-                          addUPopularMovieToWatchlist(widget.movie); // No need for null check
+                          addUPopularMovieToWatchlist(widget.movie);
                         } else {
-                          removeMovieFromWatchlist(widget.movie.id.toString()); // No need for null check
+                          removeMovieFromWatchlist(widget.movie.id.toString());
                         }
                       } else {
                         print('Movie is null');

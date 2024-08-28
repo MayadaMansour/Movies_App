@@ -1,24 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:moves_app_project/core/model/movies_home_model/up_coming_movie_model.dart';
-import 'package:moves_app_project/ui/movies_pages/watch_list/watch_list_widget/watch_list_model.dart';
-
-import '../../../../core/network/constants.dart';
+import '../../../../core/firebase_utils/firebase_data.dart';
 import '../../../utils/color_resource/color_resources.dart';
-import '../../movies/movies_home_screen/details_movie_screen.dart';
-import '../../movies/widgets/item_movie.dart';
 
 class ItemWatchList extends StatefulWidget {
-  ResultsUpComing model;
+  final ResultsUpComing model;
+  final VoidCallback onRemove; // Callback to notify removal
 
-  ItemWatchList({Key? key, required this.model}) : super(key: key);
+  ItemWatchList({Key? key, required this.model, required this.onRemove}) : super(key: key);
 
   @override
   State<ItemWatchList> createState() => _ItemWatchListState();
 }
 
 class _ItemWatchListState extends State<ItemWatchList> {
-  List<ResultsUpComing>? upComingMovies;
   bool isSelected = true;
+
+  @override
+  void initState() {
+    super.initState();
+    checkIfMovieInWatchlist();
+  }
+
+  Future<void> checkIfMovieInWatchlist() async {
+    var doc = await FirebaseFirestore.instance
+        .collection('watchlist')
+        .doc(widget.model.id.toString())
+        .get();
+
+    setState(() {
+      isSelected = doc.exists;
+    });
+  }
+
+  Future<void> handleRemove() async {
+    await removeMovieFromWatchlist(widget.model.id.toString());
+    widget.onRemove();
+    setState(() {
+      isSelected = !isSelected;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +73,9 @@ class _ItemWatchListState extends State<ItemWatchList> {
                 top: -7,
                 left: -12,
                 child: InkWell(
+                  onTap: () async {
+                    await handleRemove(); // Handle the removal
+                  },
                   child: Stack(
                     alignment: Alignment.center,
                     children: [

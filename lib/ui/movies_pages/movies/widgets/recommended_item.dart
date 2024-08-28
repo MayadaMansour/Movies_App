@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moves_app_project/core/model/movies_home_model/top_rated_movies_model.dart';
+import 'package:moves_app_project/core/model/movies_home_model/popular_movie_model.dart';
+import 'package:moves_app_project/core/firebase_utils/firebase_data.dart';
 import '../../../utils/color_resource/color_resources.dart';
-import '../movies_home_screen/details_movie_screen.dart';
 
 class RecommendedItem extends StatefulWidget {
   const RecommendedItem({
@@ -17,7 +17,7 @@ class RecommendedItem extends StatefulWidget {
   final double? rate;
   final String titleMovie;
   final String date;
-  final ResultsTopRated? movie;
+  final ResultsPopularMovies? movie;
 
   @override
   State<RecommendedItem> createState() => _RecommendedItemState();
@@ -25,6 +25,21 @@ class RecommendedItem extends StatefulWidget {
 
 class _RecommendedItemState extends State<RecommendedItem> {
   bool isSelected = false;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   checkIfMovieIsInWatchlist();
+  // }
+  //
+  // Future<void> checkIfMovieIsInWatchlist() async {
+  //   if (widget.movie != null) {
+  //     final movies = await getPopularMovieWatchlist().first;
+  //     setState(() {
+  //       isSelected = movies.any((m) => m.id == widget.movie!.id);  // Use unique identifier
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +55,6 @@ class _RecommendedItemState extends State<RecommendedItem> {
               clipBehavior: Clip.none,
               children: [
                 InkWell(
-                  // onTap: () {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(
-                  //       builder: (context) => DetailsMovie(
-                  //         movieId: widget.movie?.id ?? 0,
-                  //       ),
-                  //     ),
-                  //   );
-                  // },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.15,
                     decoration: BoxDecoration(
@@ -68,11 +73,18 @@ class _RecommendedItemState extends State<RecommendedItem> {
                   top: -7,
                   left: -12,
                   child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        isSelected = !isSelected;
-                      });
-                    },
+                    // onTap: () async {
+                    //   setState(() {
+                    //   //   isSelected = !isSelected;
+                    //   // });
+                    //   // if (widget.movie != null) {
+                    //   //   if (isSelected) {
+                    //   //     await addPopularMovieToWatchlist(widget.movie!);
+                    //   //   } else {
+                    //   //     await removePopularMovieFromWatchlist(widget.movie!);
+                    //   //   }
+                    //   // }
+                    // },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [

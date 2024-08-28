@@ -45,9 +45,8 @@ class _MovieCardState extends State<MovieCard> {
 
                 });
                 if (isSelected) {
-                   addUpComingMovieToWatchlist(widget.movie!);
+                  addUpComingMovieToWatchlist(widget.movie!);
                 } else {
-                  // Handle removal if necessary
                 }
               },
               child: Stack(

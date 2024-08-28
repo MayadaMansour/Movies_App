@@ -14,7 +14,13 @@ class NoMoviesFound extends StatelessWidget {
           SizedBox(
             height: height * .015,
           ),
-          Text('No movies found'),
+          Text(
+            'No movies found',
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(fontWeight: FontWeight.w400),
+          ),
         ],
       ),
     );

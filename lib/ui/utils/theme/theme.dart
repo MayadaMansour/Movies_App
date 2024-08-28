@@ -42,6 +42,18 @@ class MyThemeData {
         fontSize: 18,
         fontFamily: "Flat",
       ),
+      titleLarge: TextStyle(
+        color: ColorResources.white,
+        fontWeight: FontWeight.w400,
+        fontSize: 20,
+        fontFamily: "Inter",
+      ),
+      titleSmall: TextStyle(
+        color: ColorResources.searchGreyColor,
+        fontWeight: FontWeight.normal,
+        fontSize: 15,
+        fontFamily: "Inter",
+      ),
     ),
   );
 }

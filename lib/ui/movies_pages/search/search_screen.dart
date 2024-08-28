@@ -31,10 +31,17 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.only(
+              top: height * .07,
+              bottom: height * .03,
+              left: width * .04,
+              right: width * .04),
           child:TextFieldSearch(
             controller: searchController,
             onSubmitted: onSearch,

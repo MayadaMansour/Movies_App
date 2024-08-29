@@ -23,6 +23,9 @@ class _GenresMoviesScreenState extends State<GenresMoviesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return BlocBuilder<GenresMoviesScreenViewModel, GenresState>(
       bloc: viewModel,
       builder: (context, state) {
@@ -52,23 +55,21 @@ class _GenresMoviesScreenState extends State<GenresMoviesScreen> {
                 int firstIndex = index * 2;
                 int secondIndex = firstIndex + 1;
                 return Padding(
-                  padding: EdgeInsets.symmetric(vertical: 13.0),
+                  padding: EdgeInsets.symmetric(vertical: height*.014),
                   child: Row(
                     children: [
                       Expanded(
                         child: BrowseCategoryItem(
-                          title: state.listGenres[firstIndex].name ?? '',
-                            imagePath: getImagePathForGenre(
-                                state.listGenres[firstIndex].name ?? ''),
+                            title: state.listGenres[firstIndex].name ?? '',
+                            imagePath: 'assets/images/image.jpg',
                             genresId: state.listGenres[firstIndex].id!),
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width * .04),
+                      SizedBox(width: width * .04),
                       if (secondIndex < state.listGenres.length)
                         Expanded(
                           child: BrowseCategoryItem(
                             title: state.listGenres[secondIndex].name ?? '',
-                            imagePath: getImagePathForGenre(
-                                state.listGenres[secondIndex].name ?? ''),
+                            imagePath: 'assets/images/image.jpg',
                             genresId: state.listGenres[secondIndex].id!,
                           ),
                         ),

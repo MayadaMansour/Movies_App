@@ -78,17 +78,35 @@ class WatchlistScreen extends StatelessWidget {
               bool? confirm = await showDialog<bool>(
                 context: context,
                 builder: (context) => AlertDialog(
-                  title: const Text('Clear Watchlist'),
-                  content: const Text(
-                      'Are you sure you want to clear all movies from the watchlist?'),
+                  backgroundColor: Colors.white,
+                  title: Text(
+                    'Clear Watchlist',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: ColorResources.yellow),
+                  ),
+                  content: Text(
+                      'Are you sure you want to clear all movies from the watchlist?',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold, color: Colors.black)),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(false),
-                      child: const Text('Cancel'),
+                      child: Text(
+                        'Cancel',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: ColorResources.grey,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
-                      child: const Text('Clear'),
+                      child: Text(
+                        'Clear',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: ColorResources.yellow,
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ],
                 ),

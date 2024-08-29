@@ -1,9 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../utils/color_resource/color_resources.dart';
+import '../../movies/movies_home_screen/details_movie_screen.dart';
 import 'cubit/discover_movies_screen_view_model.dart';
-import 'discover_movies_details_screen.dart';
 
 class DiscoverMoviesScreen extends StatefulWidget {
   final int genreId;
@@ -27,6 +27,9 @@ class _DiscoverMoviesScreenState extends State<DiscoverMoviesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: ColorResources.bgColor,
       appBar: AppBar(
@@ -36,6 +39,7 @@ class _DiscoverMoviesScreenState extends State<DiscoverMoviesScreen> {
                 fontSize: 27,
               ),
         ),
+        iconTheme: IconThemeData(color: ColorResources.white),
         backgroundColor: ColorResources.bgColor,
       ),
       body: BlocBuilder<DiscoverMoviesScreenViewModel, DiscoverMoviesState>(
@@ -60,46 +64,85 @@ class _DiscoverMoviesScreenState extends State<DiscoverMoviesScreen> {
             );
           } else if (state is DiscoverMoviesLoadedState) {
             return ListView.builder(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(10.0),
               itemCount: state.movies.results!.length,
               itemBuilder: (context, index) {
                 var movie = state.movies.results![index];
-                return ListTile(
-                  contentPadding: EdgeInsets.all(10.0),
-                  leading: movie.posterPath != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: Image.network(
-                            'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                            fit: BoxFit.cover,
-                            width: MediaQuery.of(context).size.width * .3,
+                return Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailsMovie(movieId: movie.id ?? 0)));
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        movie.posterPath != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(16.0),
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(
+                                      color: Colors.yellow,
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Icon(Icons.error),
+                                  fit: BoxFit.cover,
+                                  width: width * .4,
+                                  height: width * .6,
+                                ),
+                              )
+                            : SizedBox(
+                                width: width * .4,
+                                height: width * .6,
+                                child: Center(
+                                    child: Icon(Icons.image_not_supported)),
+                              ),
+                        SizedBox(width: width * .02),
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: height * 0.03,
+                                horizontal: width * 0.03),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  movie.title ?? '',
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                                SizedBox(height: height * .03),
+                                Text(
+                                  movie.releaseDate ?? '',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: ColorResources.grey),
+                                ),
+                                SizedBox(height: height * .016),
+                                Text(
+                                  'Language  ${movie.originalLanguage}' ?? '',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(
+                                        color: ColorResources.grey,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      : SizedBox.shrink(),
-                  title: Text(
-                    "${movie.title ?? ''}",
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: Text(
-                      movie.overview ?? '',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
                   ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => DiscoverMovieDetailsScreen(
-                          title: movie.title ?? '',
-                          overview: movie.overview ?? '',
-                          posterPath: movie.posterPath,
-                        ),
-                      ),
-                    );
-                  },
                 );
               },
             );
